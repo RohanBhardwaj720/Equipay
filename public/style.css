@@ -1,0 +1,300 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  html {
+    font-family: "Montserrat", sans-serif;
+  }
+  body {
+   background-color: #00a6e4;
+  }
+header {
+    border-radius:15px;
+    background-color:   #fff;
+    margin-top:-10px;
+    padding: 16px 32px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  }
+  
+  header h1 {
+    color:#0B60B0;
+    font-family: "Nunito", sans-serif;
+    font-weight: 200;
+    font-weight:900;
+    margin-left:20px;
+  }
+  
+  footer {
+    color:   #dfdcdc;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+  }
+#login{
+   height:90vh;
+   display:flex;
+   justify-content: center;
+   align-items: center;
+}
+
+
+#equi{
+    color:#0d3685;
+}
+#logout{
+    position: absolute;
+    right:2rem;
+    top:18px;
+    font-weight:400;
+    font-size:1.6rem;
+    font-family: "Roboto", sans-serif;
+    color: #ada7a7;
+    border:0;
+    background-color: #fff;
+}
+
+  form.Add-trip {
+    position: relative;
+    width: 480px;
+    margin: 30px auto 20px auto;
+    background: #fff;
+    padding: 15px;
+    border-radius: 7px;
+    box-shadow: 0 1px 5px rgb(138, 137, 137);
+    min-height: 115px;
+  }
+  form.Add-trip input {
+    border: none;
+    padding: 4px;
+    outline: none;
+    font-size: 1.2em;
+    font-family: inherit;
+    resize: none;
+    width:420px;
+  }
+  form.Add-trip #Add-group{
+    position: absolute;
+  right: 18px;
+  bottom: -16px;
+  background:#ffffff ;
+  color: #0B60B0;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  outline:none;
+  }
+  form.Add-trip #Add-person{
+    margin:0;
+    padding:0;
+    color:#0d3685;
+    background-color: #fff;
+    border:0;
+    position:relative;
+    top:4px;
+  }
+  #displayInForm{
+    font-family: inherit;
+    font-size:1.2rem;
+    padding:10px 0 0 0;
+  }
+  #trip_display{
+    width:439px;
+    height:250px;
+    background-position: center;
+    object-fit:cover;
+    border-radius: 15px;
+    margin:20px;
+    background-color: #fff;
+    display:inline-block;
+    background-image: linear-gradient(rgba(0, 139, 214, 0.8), rgba(237, 167, 116, 0.8)),url(https://i.pinimg.com/564x/de/3c/6e/de3c6e0c731149aaebd42ef19dae5e12.jpg);
+    box-shadow: 0 0 20px rgba(8, 98, 172, 0.8);
+    position: relative;
+  }
+
+#heading_in_trip_card{
+  margin:20px;
+  margin-top: 10px;
+}
+#heading_in_trip_card h1{
+  color:#F6F4EB;
+  font-size:3.5rem;
+  letter-spacing: 0.3rem;
+}
+#heading_in_trip_card p{
+  color:#1A5174;
+  font-size:1rem;
+  
+}
+#message{
+  color:#F6F4EB;
+  font-weight:520;
+  letter-spacing: 0.1rem;
+  position:absolute;
+  bottom:0px;
+  right:0;
+  padding:10px;
+}
+#red{
+  color:#eb3d60;
+}
+#green{
+  color:#3cb33c;
+}
+
+#trip{
+  display: flex;
+  justify-content:  center;
+}
+
+#trip_card_1{
+  border-radius:15px;
+  background-color: #ffffff;
+  width:30rem;
+  padding: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  margin:2rem;
+  font-family: "Nunito", sans-serif;
+}
+
+#trip_card_1 h1{
+  font-weight:normal;
+  margin:5px;
+}
+
+#trip_card_1 .icons{
+  display: flex;
+  justify-content:space-evenly;
+  margin-top:10px;
+}
+
+#trip_card_1 .icon{
+  display:inline-block;
+}
+
+#trip_card_1 img{
+  width:5rem;
+  height:5rem;
+}
+#trip_card_1 p{
+  text-align: center;
+}
+
+#trip_members{
+  padding:10px;
+  margin:20px;
+  background-color: #ffffff;
+  border-radius:15px;
+  font-family: "Nunito", sans-serif;
+  margin-bottom:10px;
+}
+#trip_members h1{
+  font-weight:normal;
+  margin-left:0.5rem;
+}
+
+.sexy-list {
+  list-style: none;
+  counter-reset: sexy-counter;
+  padding:15px;
+}
+
+.sexy-list li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 30px;
+  margin-right:0;
+  font-size: 16px;
+}
+
+.sexy-list li:before {
+  content: counter(sexy-counter);
+  counter-increment: sexy-counter;
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #22a8d8; 
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-weight: bold;
+}
+
+.sexy-list span{
+  position:absolute;
+  right:1rem;
+}
+
+#history_card{
+  border-radius: 12px;
+  background-color: #fff;
+
+}
+
+.grey{
+  background-color: #ECEFEF;
+}
+
+.data{
+  padding:5px;
+  margin-left:20px;
+  margin-right:20px;
+  position: relative;
+  font-family: "Work Sans", sans-serif;
+  font-size:small;
+}
+
+.data p{
+  font-weight:300;
+  padding:1px;
+}
+
+.data h3{
+  font-weight:400;
+  padding:1px;
+}
+#profile_image img{
+  width:2.3rem;
+  height:2.3rem;
+  border-radius: 50%;
+  overflow:hidden;
+}
+
+#profile_image{
+  
+  padding:5px;
+  padding-left:10px;
+}
+
+.left{
+  position:absolute;
+  left:4rem;
+  top:0.65rem;
+  
+}
+
+.right h3{
+  position:absolute;
+  top:0.65rem;
+  right:1rem;
+}
+
+.right p{
+  position:absolute;
+  right:1rem;
+  top:2rem;
+}
+
+#history_heading{
+  font-family: "Work Sans", sans-serif;
+  margin:1rem 1.5rem;
+  font-size:2rem;
+  font-weight:500;
+  color:#04427d;
+}
