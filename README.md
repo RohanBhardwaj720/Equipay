@@ -15,6 +15,16 @@ This project is built using the following technologies:
 - **React**: Frontend library for building user interfaces.
 - **Node.js**: JavaScript runtime for the backend.
 
+## Screenshots
+- Login Page
+ ![Login Page](./public/login_page.png)
+- Home Page
+ ![Home Page](./public/Home_page.png)
+- Trip
+ ![Trip](./public/Trip.png)
+- Transaction History
+ ![Transaction History](./public/transaction_history.png)
+
 ## Getting Started
 To get a local copy up and running, follow these simple steps.
 ### Prerequisites
