@@ -31,7 +31,12 @@ git clone https://github.com/RohanBhardwaj720/Equipay.git
 npm install
 ```
 
-3. Start the server
+3. Start the Backend Server
+```sh
+node server.mjs
+```
+4. Start the Frontend 
 ```sh
 npm start
 ```
+
