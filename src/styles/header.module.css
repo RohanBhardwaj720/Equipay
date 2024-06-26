@@ -1,0 +1,29 @@
+#equi {
+  color: #0d3685;
+}
+#logout {
+  position: absolute;
+  right: 2rem;
+  top: 18px;
+  font-weight: 400;
+  font-size: 1.6rem;
+  font-family: 'Roboto', sans-serif;
+  color: #ada7a7;
+  border: 0;
+  background-color: #fff;
+}
+header {
+  border-radius: 15px;
+  background-color: #fff;
+  margin-top: -10px;
+  padding: 16px 32px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+  color: #0b60b0;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 200;
+  font-weight: 900;
+  margin-left: 20px;
+}

@@ -19,7 +19,8 @@
     "pg": "^8.11.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "prettier": "^2.3.2"
   },
   "devDependencies": {
     "@types/react": "18.2.38",
@@ -31,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --print-width 100 --single-quote --no-semi --trailing-comma none"
   },
   "browserslist": [
     ">0.2%",

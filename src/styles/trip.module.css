@@ -1,0 +1,51 @@
+#trip {
+  display: flex;
+  justify-content: center;
+}
+#trip_members {
+  padding: 10px;
+  margin: 20px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  font-family: 'Nunito', sans-serif;
+  margin-bottom: 10px;
+}
+#trip_members h1 {
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
+.sexy_list {
+  list-style: none;
+  counter-reset: sexy-counter;
+  padding: 15px;
+}
+
+.sexy_list li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 30px;
+  margin-right: 0;
+  font-size: 16px;
+}
+
+.sexy_list li:before {
+  content: counter(sexy-counter);
+  counter-increment: sexy-counter;
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #22a8d8;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-weight: bold;
+}
+
+.sexy_list span {
+  position: absolute;
+  right: 1rem;
+}

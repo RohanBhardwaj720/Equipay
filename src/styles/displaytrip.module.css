@@ -1,0 +1,37 @@
+#message {
+  color: #f6f4eb;
+  font-weight: 520;
+  letter-spacing: 0.1rem;
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  padding: 10px;
+}
+#trip_display {
+  width: 439px;
+  height: 250px;
+  background-position: center;
+  object-fit: cover;
+  border-radius: 15px;
+  margin: 20px;
+  background-color: #fff;
+  display: inline-block;
+  background-image: linear-gradient(rgba(0, 139, 214, 0.8), rgba(202, 175, 175, 0.8)),
+    url(https://i.pinimg.com/564x/de/3c/6e/de3c6e0c731149aaebd42ef19dae5e12.jpg);
+  box-shadow: 0 0 20px rgba(8, 98, 172, 0.8);
+  position: relative;
+}
+
+#heading_in_trip_card {
+  margin: 20px;
+  margin-top: 10px;
+}
+#heading_in_trip_card h1 {
+  color: #f6f4eb;
+  font-size: 3.5rem;
+  letter-spacing: 0.3rem;
+}
+#heading_in_trip_card p {
+  color: #1a5174;
+  font-size: 1rem;
+}

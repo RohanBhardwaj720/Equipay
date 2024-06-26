@@ -1,0 +1,32 @@
+#trip_card_1 {
+  border-radius: 15px;
+  background-color: #ffffff;
+  width: 30rem;
+  padding: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  margin: 2rem;
+  font-family: 'Nunito', sans-serif;
+}
+
+#trip_card_1 h1 {
+  font-weight: normal;
+  margin: 5px;
+}
+
+#trip_card_1 .icons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+
+#trip_card_1 .icon {
+  display: inline-block;
+}
+
+#trip_card_1 img {
+  width: 5rem;
+  height: 5rem;
+}
+#trip_card_1 p {
+  text-align: center;
+}

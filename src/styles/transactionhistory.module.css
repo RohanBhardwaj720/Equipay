@@ -1,0 +1,36 @@
+#history_heading {
+  font-family: 'Work Sans', sans-serif;
+  margin: 1rem 1.5rem;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #04427d;
+}
+
+#profile_image img {
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+#profile_image {
+  padding: 5px;
+  padding-left: 10px;
+}
+.left {
+  position: absolute;
+  left: 4rem;
+  top: 0.65rem;
+}
+
+.right h3 {
+  position: absolute;
+  top: 0.65rem;
+  right: 1rem;
+}
+
+.right p {
+  position: absolute;
+  right: 1rem;
+  top: 2rem;
+}
