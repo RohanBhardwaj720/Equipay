@@ -7,6 +7,9 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^5.15.6",
     "@react-oauth/google": "0.12.1",
     "axios": "^1.6.7",
@@ -19,6 +22,7 @@
     "pg": "^8.11.3",
     "prettier": "^2.3.2",
     "react": "18.2.0",
+    "react-confirm-alert": "^3.0.6",
     "react-dom": "18.2.0",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1"

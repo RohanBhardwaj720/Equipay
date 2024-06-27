@@ -1,0 +1,56 @@
+.react-confirm-alert-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.react-confirm-alert-body {
+  background: #f8f9fa;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 2rem; 
+  font-family: 'Nunito', sans-serif;
+  line-height: 1.5; 
+}
+
+.react-confirm-alert-body h1 {
+  font-size: 1.7rem; 
+  color: #0d3685;
+}
+
+.react-confirm-alert-body-element {
+  color: #333;
+  font-size: 1.2rem; 
+}
+
+.react-confirm-alert-button-group {
+  display: flex;
+  justify-content:right;
+  gap: 1rem; 
+  
+}
+
+.react-confirm-alert-button-group button {
+  background-color: #0d3685;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.3rem; 
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.12rem; 
+  font-family: 'Nunito', sans-serif;
+}
+
+.react-confirm-alert-button-group button:hover {
+  background-color: #0a2a6a;
+}
+
+/* may need to fix for small screens later */
+@media (max-width: 768px) {
+  .react-confirm-alert-body {
+      padding: 2rem; 
+  }
+
+  .react-confirm-alert-button-group button {
+      padding: 0.5rem 1rem; 
+  }
+}
