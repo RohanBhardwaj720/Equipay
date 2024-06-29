@@ -1,39 +1,56 @@
-import React from 'react'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import styles from '../styles/transaction.module.css'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import styles from '../styles/transaction.module.css';
 
-function Transaction(props) {
+function Transaction({ place, trip, user }) {
+  const history = useHistory();
+  const id = trip ? trip.trip_id : null;
+  
+  const navigateTo = (path) => {
+    if (id) {
+      history.push(`/trip/${id}${path}`, { trip: trip, user: user });
+    } else {
+      console.error('Trip ID is not available');
+      // You might want to handle this case, perhaps by redirecting to a different page
+    }
+  };
+
+  if (!trip) {
+    return <div>Loading...</div>; // Or any other placeholder
+  }
+
   return (
     <div id={styles.trip_card_1}>
       <h1>
         <span style={{ color: '#BF1227' }}>
           <LocationOnIcon />
         </span>{' '}
-        {props.place} Trip
+        {place} Trip
       </h1>
       <hr />
       <div className={styles.icons}>
-        <div className={styles.icon} onClick={props.toggleHistory}>
+        <div className={styles.icon} onClick={() => navigateTo('/history')}>
           <img
             src="https://i.pinimg.com/564x/94/03/1e/94031ef5b93fefabfa594e9e0b2503d8.jpg"
-            rel="history_icon"
+            alt="history_icon"
           />
           <p>
             Transaction <br />
             History
           </p>
         </div>
-        <div className={styles.icon} onClick={props.togglePay}>
+        <div className={styles.icon} onClick={() => navigateTo('/pay')}>
           <img
             src="https://i.pinimg.com/564x/2e/08/f0/2e08f02e3be8eed4a8f86766c15900c4.jpg"
-            rel="scan_and_pay_icon"
+            alt="scan_and_pay_icon"
           />
-          <p>Scan & Pay</p>
+          <p>Add Payment</p>
         </div>
-        <div className={styles.icon} onClick={props.togglePayYourShare}>
+        <div className={styles.icon} onClick={() => navigateTo('/payYourShare')}>
           <img
             src="https://i.pinimg.com/564x/1b/5f/ef/1b5fef94158fdbc0ac4f8b53c812c224.jpg"
-            rel="pay_your_share_icon"
+            alt="pay_your_share_icon"
           />
           <p>
             Pay Your <br />
@@ -42,7 +59,7 @@ function Transaction(props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Transaction
+export default Transaction;

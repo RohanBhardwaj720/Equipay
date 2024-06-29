@@ -35,3 +35,17 @@
   color: #1a5174;
   font-size: 1rem;
 }
+.red{
+  color:#eb3d60;
+}
+.green{
+  color:#3cb33c;
+}
+
+.trip_link {
+  text-decoration: none;
+  color: inherit;
+}
+.none {
+  color: inherit;
+}

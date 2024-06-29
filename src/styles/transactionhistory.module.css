@@ -1,36 +1,132 @@
-#history_heading {
+.container {
   font-family: 'Work Sans', sans-serif;
-  margin: 1rem 1.5rem;
-  font-size: 2rem;
+  width: 95vw;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position:relative;
+  top:5vh;
+}
+
+.history_heading {
+  font-size: 1.8rem;
   font-weight: 500;
   color: #04427d;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
 }
 
-#profile_image img {
-  width: 2.3rem;
-  height: 2.3rem;
+.transaction_list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.transaction_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f3f5f7d9;
+  transition: background-color 0.3s ease;
+}
+
+.transaction_item:hover {
+  background-color: #8ac0f57c;
+}
+
+.even {
+  background-color: #fefdfdb9;
+  
+}
+
+.user_info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile_image img {
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
-  overflow: hidden;
+  object-fit: cover;
 }
 
-#profile_image {
-  padding: 5px;
-  padding-left: 10px;
-}
-.left {
-  position: absolute;
-  left: 4rem;
-  top: 0.65rem;
-}
-
-.right h3 {
-  position: absolute;
-  top: 0.65rem;
-  right: 1rem;
+.no_image {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: #666;
 }
 
-.right p {
-  position: absolute;
-  right: 1rem;
-  top: 2rem;
+.user_details h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.user_details p {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0.2rem 0 0;
+}
+
+.transaction_details {
+  text-align: right;
+}
+
+.transaction_details h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #04427d;
+  margin: 0;
+}
+
+.transaction_details p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #04427d;
+  margin: 0.2rem 0 0;
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .history_heading {
+    font-size: 1.25rem;
+  }
+
+  .transaction_item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .transaction_details {
+    text-align: left;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .history_heading {
+    font-size: 1.35rem;
+  }
 }

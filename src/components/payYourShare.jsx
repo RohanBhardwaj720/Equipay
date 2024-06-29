@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useLocation } from 'react-router-dom';
+import styles from "../styles/payyourshare.module.css"
 
 function PayYourShare(props) {
+  const location = useLocation();
+  const { trip, user } = location.state;
   const [amount, setAmount] = useState()
   const array = props.moneyArr
   const members = props.members

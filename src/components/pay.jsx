@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useLocation } from 'react-router-dom';
+import styles from "../styles/pay.module.css"
 
 function Pay(props) {
+  const location = useLocation();
+  const { trip, user } = location.state;
   const [inputMoney, setInputMoney] = useState('')
-  const [payedTo, setPayedTo] = useState('')
+  const [paidTo, setPaidTo] = useState('')
 
   function handleChangeInMoney(event) {
     const amount = event.target.value
@@ -12,7 +16,7 @@ function Pay(props) {
 
   function handleChange(event) {
     const name = event.target.value
-    setPayedTo(name)
+    setPaidTo(name)
   }
 
   function handle() {
@@ -20,9 +24,9 @@ function Pay(props) {
       'http://localhost:3001/history',
       {
         amount: inputMoney,
-        payedBy: props.email,
-        payedTo: payedTo,
-        tripId: props.trip.id
+        paidBy: user.user_id,
+        paidTo: paidTo,
+        tripId: trip.trip_id
       },
       (err, res) => {
         if (err) {
@@ -31,9 +35,9 @@ function Pay(props) {
       }
     )
     axios.patch(
-      `http://localhost:3001/trip/${props.trip.id}`,
+      `http://localhost:3001/addpayment/${trip.trip_id}`,
       {
-        payedBy: props.email,
+        paidBy: user.user_id,
         money: inputMoney
       },
       (err, res) => {
@@ -42,22 +46,28 @@ function Pay(props) {
         }
       }
     )
-    props.trip.total_spendings += parseInt(inputMoney)
-    setPayedTo('')
+    trip.total_spendings += parseInt(inputMoney)
+    setPaidTo('')
     setInputMoney('')
   }
 
   return (
-    <div>
+    <div className={styles.payment_form}>
       <input
+        className={styles.payment_input}
         placeholder="Enter amount of money you want to pay"
         value={inputMoney}
         onChange={handleChangeInMoney}
       />
-      <input placeholder="to whome you are paying" value={payedTo} onChange={handleChange} />
-      <button onClick={handle}>Submit </button>
+      <input 
+        className={styles.payment_input}
+        placeholder="To whom you are paying"
+        value={paidTo}
+        onChange={handleChange}
+      />
+      <button className={styles.payment_button} onClick={handle}>Add Payment</button>
     </div>
-  )
+  );
 }
 
 export default Pay
