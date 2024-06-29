@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from '../styles/header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import '../styles/confirmAlert.css'; 
+import '../styles/confirmAlert.css';
 
 function Header(props) {
   const handleAuthAction = () => {
@@ -26,8 +26,6 @@ function Header(props) {
           }
         ]
       });
-    } else {
-      props.onSignIn();
     }
   };
 
@@ -37,14 +35,16 @@ function Header(props) {
         <i className={styles.equi}>Equi</i>
         <i>Pay</i>
       </h1>
-      <button
-        className={styles.authButton}
-        onClick={handleAuthAction}
-      >
-        <FontAwesomeIcon icon={props.isAuth ? faSignOutAlt : faSignInAlt} />
-        {' '}
-        {props.isAuth ? 'Log Out' : 'Sign In'}
-      </button>
+      {props.isAuth && (
+        <button
+          className={styles.authButton}
+          onClick={handleAuthAction}
+        >
+          <FontAwesomeIcon icon={faSignOutAlt} />
+          {' '}
+          Log Out
+        </button>
+      )}
     </header>
   );
 }
