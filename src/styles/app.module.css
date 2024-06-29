@@ -46,3 +46,92 @@ form.Add-trip #Add-person {
   justify-content: center;
   align-items: center;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px);
+}
+
+.loginSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  text-align: center;
+}
+
+.loginCard h2 {
+  margin-bottom: 10px;
+  color: #1c1e21;
+  font-size: 24px;
+}
+
+.loginCard p {
+  margin-bottom: 20px;
+  color: #606770;
+}
+
+.googleLoginWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #1877f2;
+  color: white;
+}
+
+.submitButton:hover {
+  background-color: #166fe5;
+}
+
+.loginCard input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 10px;
+  border: 1px solid #dddfe2;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.loginCard input:focus {
+  border-color: #1877f2;
+  box-shadow: 0 0 0 2px #e7f3ff;
+  outline: none;
+}
+
+.quoteContainer {
+  margin-bottom: 40px;
+  padding: 20px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.quote {
+  font-style: italic;
+  color: #fcfcfc;
+  font-size: 24px;
+  line-height: 1.4;
+  text-align: center;
+}

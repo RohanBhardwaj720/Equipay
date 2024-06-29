@@ -120,6 +120,30 @@ app.post("/user", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+// post user upi_id
+app.post("/user/upi", async (req, res) => {
+    const { user_id, upiId } = req.body;
+  
+    try {
+      // Update the user's UPI ID in the database
+      db.query("UPDATE users SET user_upi_id = $1 WHERE user_id = $2", 
+        [upiId, user_id],
+        (err, result) => {
+          if (err) {
+            console.error("Error updating UPI ID", err.stack);
+            return res.status(500).json({ error: "Internal Server Error" });
+          } else {
+            console.log("UPI ID added successfully");
+            return res.status(200).json({ message: "UPI ID added successfully" });
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Error processing request:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
 // for trips table
 
 //get all trips
@@ -213,13 +237,50 @@ app.get("/trip/members",(req,res)=>{
 
 
 // Pay your share 
-app.patch("/payYourShare:id",(req,res)=>{
-    const { money, paidBy } = req.body;
-    const trip_id = req.params.id;
+app.patch("/payYourShare/:id", async (req, res) => {
+  let { money, paidBy, trip_organizer } = req.body;
+  const trip_id = req.params.id;
+  money = parseFloat(money);
+
+  console.log('Request received:', { money, paidBy, trip_organizer, trip_id });
+
+  if (isNaN(money)) {
+    console.log('Invalid amount:', money);
+    return res.status(400).send('Invalid amount');
+  }
+
+  try {
+    await db.query('BEGIN');
+
+    const updatePaidBy = await db.query(
+      "UPDATE trip_members SET user_spending = user_spending + $1 WHERE trip_id = $2 AND user_id = $3",
+      [money, trip_id, paidBy]
+    );
+
+    const updateOrganizer = await db.query(
+      "UPDATE trip_members SET user_spending = user_spending - $1 WHERE trip_id = $2 AND user_id = $3",
+      [money, trip_id, trip_organizer]
+    );
+
+    await db.query('COMMIT');
+
+    console.log('Update results:', { updatePaidBy: updatePaidBy.rowCount, updateOrganizer: updateOrganizer.rowCount });
+
+    if (updatePaidBy.rowCount === 0 || updateOrganizer.rowCount === 0) {
+      throw new Error('No rows updated');
+    }
+
+    res.status(200).send('Transaction completed successfully');
+  } catch (err) {
+    await db.query('ROLLBACK');
+    console.error('Error executing query', err.stack);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
 // pay to
 app.patch("/addpayment/:id", (req, res) => {
-    const money = parseFloat(req.body.money); // Convert to number
+    const money = parseFloat(req.body.money); 
     const paidBy = req.body.paidBy;
     const trip_id = req.params.id;
 
