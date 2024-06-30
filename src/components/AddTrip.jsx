@@ -13,22 +13,22 @@ function AddTrip(props) {
   const [members, setMember] = useState([props.user.email]);
   const [trips, setTrips] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/trip/all', {
-          params: {
-            user_id: props.user.user_id
-          }
-        });
-        console.log(response.data);
-        setTrips(response.data);
-      } catch (error) {
-        console.log('Error fetching trips array', error);
-      }
-    };
+  const fetchTrips = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/trip/all', {
+        params: {
+          user_id: props.user.user_id
+        }
+      });
+      console.log(response.data);
+      setTrips(response.data);
+    } catch (error) {
+      console.log('Error fetching trips array', error);
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    fetchTrips();
   }, [props.user]);
 
   function handlePlaceChange(event) {
@@ -73,23 +73,15 @@ function AddTrip(props) {
         tripOrganizer: props.user.user_id
       });
 
-      const newTrip = {
-        start_datetime: today.toJSDate(),
-        place: place,
-        trip_organizer: props.user.user_id,
-        total_spendings: 0,
-        trip_id: response2.data.trip_id
-      };
+      await fetchTrips();
 
-      setTrips((prev) => [newTrip, ...prev]);
+      setEmail('');
+      setPlace('');
+      setMember([props.user.email]);
     } catch (err) {
       console.log('failed adding trip');
       console.log('err:', err);
     }
-
-    setEmail('');
-    setPlace('');
-    setMember([props.user.email]);
   }
 
   return (
