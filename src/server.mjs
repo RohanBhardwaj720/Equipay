@@ -10,16 +10,11 @@ const app = express();
 const port = 3001;
 env.config();
 
+const { Pool } = pg;
 
-const db = new pg.Client({
-    user : process.env.PG_USER,
-    host : process.env.PG_HOST,
-    database : process.env.PG_DATABASE,
-    password : process.env.PG_PASSWORD,
-    port : process.env.PG_PORT,
-});
-
-db.connect();
+const pool = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+  })
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +33,7 @@ const downloadImageAsBase64 = async (url) => {
         throw error;
     }
 };
+
 // for user table 
 // to get user details like picture, name and email
 // Handle query parameters
@@ -46,7 +42,7 @@ app.get("/user", handleUserRequest);
 // Handle path parameters
 app.get("/user/:id", handleUserRequest);
 
-function handleUserRequest(req, res) {
+async function handleUserRequest(req, res) {
     const email = req.query.email;
     const user_id = req.params.id || req.query.user_id;
     
@@ -63,20 +59,19 @@ function handleUserRequest(req, res) {
         return res.status(400).send("Bad Request: Missing parameter (email or user_id required)");
     }
 
-    db.query(query, param, (err, result) => {
-        if (err) {
-            console.error("Error executing query", err.stack);
-            return res.status(500).send("Internal Server Error");
+    try {
+        const result = await pool.query(query, param);
+        if (result.rows.length !== 0) {
+            console.log(result.rows[0]);
+            return res.status(200).json(result.rows[0]);
         } else {
-            if (result.rows.length !== 0) {
-                console.log(result.rows[0]);
-                return res.status(200).json(result.rows[0]);
-            } else {
-                console.log("User not found");
-                return res.status(404).send("User not found");
-            }
+            console.log("User not found");
+            return res.status(404).send("User not found");
         }
-    });
+    } catch (err) {
+        console.error("Error executing query", err.stack);
+        return res.status(500).send("Internal Server Error");
+    }
 }
 
 // to post user details, when user logged in for the first time
@@ -84,37 +79,21 @@ app.post("/user", async (req, res) => {
     const { email, picture, name } = req.body;
     
     try {
-        // Download image and convert to base64
         const picture_in_base64 = await downloadImageAsBase64(picture);
         
-        // Check if user already exists in the database
-        db.query("SELECT * FROM users WHERE user_email = $1", [email], async (err, result) => {
-            if (err) {
-                console.error("Error executing query", err.stack);
-                return res.status(500).json({ error: "Internal Server Error" });
-            }
-            
-            if (result.rows.length !== 0) {
-                console.log("User already exists");
-                const user_id = result.rows[0].user_id;
-                return res.status(200).json({ user_id: user_id, message: "User already exists" });
-            } else {
-                // Insert new user with email, base64 image, and name
-                db.query("INSERT INTO users (user_email, user_picture, user_name) VALUES ($1, $2, $3) RETURNING user_id", 
-                    [email, picture_in_base64, name], 
-                    (err, result) => {
-                        if (err) {
-                            console.error("Error adding new user", err.stack);
-                            return res.status(500).json({ error: "Internal Server Error" });
-                        } else {
-                            const user_id = result.rows[0].user_id;
-                            console.log("User added successfully");
-                            return res.status(201).json({ user_id: user_id, message: "User added successfully" });
-                        }
-                    }
-                );
-            }
-        });
+        const userExistsResult = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
+        
+        if (userExistsResult.rows.length !== 0) {
+            console.log("User already exists");
+            const user_id = userExistsResult.rows[0].user_id;
+            return res.status(200).json({ user_id: user_id, message: "User already exists" });
+        } else {
+            const insertResult = await pool.query("INSERT INTO users (user_email, user_picture, user_name) VALUES ($1, $2, $3) RETURNING user_id", 
+                [email, picture_in_base64, name]);
+            const user_id = insertResult.rows[0].user_id;
+            console.log("User added successfully");
+            return res.status(201).json({ user_id: user_id, message: "User added successfully" });
+        }
     } catch (error) {
         console.error("Error processing request:", error);
         res.status(500).json({ error: "Internal Server Error" });
@@ -126,58 +105,47 @@ app.post("/user/upi", async (req, res) => {
     const { user_id, upiId } = req.body;
   
     try {
-      // Update the user's UPI ID in the database
-      db.query("UPDATE users SET user_upi_id = $1 WHERE user_id = $2", 
-        [upiId, user_id],
-        (err, result) => {
-          if (err) {
-            console.error("Error updating UPI ID", err.stack);
-            return res.status(500).json({ error: "Internal Server Error" });
-          } else {
-            console.log("UPI ID added successfully");
-            return res.status(200).json({ message: "UPI ID added successfully" });
-          }
-        }
-      );
+        await pool.query("UPDATE users SET user_upi_id = $1 WHERE user_id = $2", 
+            [upiId, user_id]);
+        console.log("UPI ID added successfully");
+        return res.status(200).json({ message: "UPI ID added successfully" });
     } catch (error) {
-      console.error("Error processing request:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error processing request:", error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-  });
+});
+
 // for trips table
 
 //get all trips
-app.get("/trip/all",(req,res)=>{
+app.get("/trip/all", async (req, res) => {
     const { user_id } = req.query;
-    db.query("SELECT * FROM trip_members INNER JOIN trips ON trip_members.trip_id = trips.trip_id where trip_members.user_id = $1",[user_id],(err,result)=>{
-        if(err){
-            console.error("Error executing query", err.stack);
-            res.status(500).send("Internal Server Error");
-        }else{
-            console.log(result.rows);
-            res.status(200).json(result.rows);
-        }
-    });
+    try {
+        const result = await pool.query("SELECT * FROM trip_members INNER JOIN trips ON trip_members.trip_id = trips.trip_id where trip_members.user_id = $1", [user_id]);
+        console.log(result.rows);
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.error("Error executing query", err.stack);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
-// get imformation about the trip
-app.get("/trip",(req,res)=>{
+// get information about the trip
+app.get("/trip", async (req, res) => {
     const { trip_id } = req.query;
-    db.query("SELECT * FROM trips WHERE trip_id = $1",[trip_id],(err,result)=>{
-        if (err) {
-            console.error("Error executing query", err.stack);
-            res.status(500).send("Internal Server Error");
+    try {
+        const result = await pool.query("SELECT * FROM trips WHERE trip_id = $1", [trip_id]);
+        if (result.rows.length !== 0) {
+            res.status(200).json(result.rows[0]);
         } else {
-            if (result.rows.length !== 0) {
-                // console.log(result.rows[0]);
-                res.status(200).json(result.rows[0]);
-            } else {
-                console.log("trip not found");
-                res.status(404).send("trip not found");
-            }
+            console.log("trip not found");
+            res.status(404).send("trip not found");
         }
-    });
-}); 
+    } catch (err) {
+        console.error("Error executing query", err.stack);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 // post a new trip 
 app.post("/trip", async (req, res) => {
@@ -185,71 +153,60 @@ app.post("/trip", async (req, res) => {
     const totalSpending = 0;
     const userSpending = 0;
     const today = DateTime.local();
-    let newTripId = 1; // Initialize newTripId
-    console.log( req.body);
 
-    // Insert new trip into 'trips' table
-    db.query(
-        "INSERT INTO trips (place, start_datetime, total_spendings, trip_organizer) VALUES ($1, $2, $3, $4) RETURNING trip_id",
-        [place, today, totalSpending, tripOrganizer],
-        (err, insertResult) => {
-            if (err) {
-                console.error("Error executing query", err.stack);
-                return res.status(500).send("Internal Server Error");
-            }
+    try {
+        const insertResult = await pool.query(
+            "INSERT INTO trips (place, start_datetime, total_spendings, trip_organizer) VALUES ($1, $2, $3, $4) RETURNING trip_id",
+            [place, today, totalSpending, tripOrganizer]
+        );
 
-            newTripId = insertResult.rows[0].trip_id;
+        const newTripId = insertResult.rows[0].trip_id;
 
-            // Insert trip members into 'trip_members' table
-            for (let i = 0; i < members_id.length; i++) {
-                db.query(
-                    "INSERT INTO trip_members (trip_id, user_id, user_spending) VALUES ($1, $2, $3)",
-                    [newTripId, members_id[i],userSpending],
-                    (err) => {
-                        if (err) {
-                            console.error("Error executing query", err.stack);
-                            return res.status(500).send("Internal Server Error");
-                        }
-                        console.log(`Member ${members_id[i]} added to trip ${newTripId}`);
-                    }
-                );
-            }
+        const promises = members_id.map(member_id => {
+            return pool.query(
+                "INSERT INTO trip_members (trip_id, user_id, user_spending) VALUES ($1, $2, $3)",
+                [newTripId, member_id, userSpending]
+            );
+        });
 
-            console.log("Trip added successfully");
-            res.status(200).send("Trip added successfully");
-        }
-    );
+        await Promise.all(promises);
+
+        console.log("Trip added successfully");
+        res.status(200).send("Trip added successfully");
+    } catch (err) {
+        console.error("Error executing query", err.stack);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 // Get trip members
-app.get("/trip/members",(req,res)=>{
+app.get("/trip/members", async (req, res) => {
     const { trip_id } = req.query;
-    db.query('SELECT * FROM trip_members INNER JOIN users ON trip_members.user_id = users.user_id WHERE trip_members.trip_id = $1',[trip_id],(err,response)=>{
-        if (err) {
-            console.error("Error executing query", err.stack);
-            return res.status(500).send("Internal Server Error");
-        }else{
-            console.log(response.rows);
-            res.status(200).json(response.rows);
-        }
-    })
-});
-// Get member spending
-app.get("/spending",(req,res)=>{
-    const {userId, tripId} = req.query;
-   
-    db.query("SELECT user_spending FROM trip_members WHERE trip_id = $1 AND user_id = $2",[tripId,userId],(err,result)=>{
-        if(err){
-            console.error("Error executing query", err.stack);
-            res.status(500).send("Internal Server Error");
-        }else if(result.rows.length === 0 ){
-            res.status(400).send('Invalid tripId or userId');
-        }else{
-            res.status(200).json(result.rows[0]);
-        }
-    });
+    try {
+        const response = await pool.query('SELECT * FROM trip_members INNER JOIN users ON trip_members.user_id = users.user_id WHERE trip_members.trip_id = $1', [trip_id]);
+        console.log(response.rows);
+        res.status(200).json(response.rows);
+    } catch (err) {
+        console.error("Error executing query", err.stack);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
+// Get member spending
+app.get("/spending", async (req, res) => {
+    const { userId, tripId } = req.query;
+    try {
+        const result = await pool.query("SELECT user_spending FROM trip_members WHERE trip_id = $1 AND user_id = $2", [tripId, userId]);
+        if (result.rows.length === 0) {
+            res.status(400).send('Invalid tripId or userId');
+        } else {
+            res.status(200).json(result.rows[0]);
+        }
+    } catch (err) {
+        console.error("Error executing query", err.stack);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 // Pay your share 
 app.patch("/pay/:id", async (req, res) => {
@@ -258,158 +215,132 @@ app.patch("/pay/:id", async (req, res) => {
     money = parseFloat(money);
 
     if (isNaN(money)) {
-      console.log('Invalid amount:', money);
-      return res.status(400).send('Invalid amount');
+        console.log('Invalid amount:', money);
+        return res.status(400).send('Invalid amount');
     }
   
     try {
-  
-      const historyResponse = await axios.post("http://localhost:3001/history", {
-        amount: money,
-        paidTo: paidTo,
-        paidBy: paidBy,
-        tripId: trip_id
-      });
-  
-      await db.query('BEGIN');
-  
-      const updatePaidBy = await db.query(
-        "UPDATE trip_members SET user_spending = user_spending + $1 WHERE trip_id = $2 AND user_id = $3",
-        [money, trip_id, paidBy]
-      );
-  
-      const updatePaidTo = await db.query(
-        "UPDATE trip_members SET user_spending = user_spending - $1 WHERE trip_id = $2 AND user_id = $3",
-        [money, trip_id, paidTo]
-      );
-  
-      await db.query('COMMIT');
-  
-      console.log('Update results:', { updatePaidBy: updatePaidBy.rowCount, updatePaidTo: updatePaidTo.rowCount });
-  
-      if (updatePaidBy.rowCount === 0 || updatePaidTo.rowCount === 0) {
-        throw new Error('No rows updated');
-      }
-  
-      res.status(200).send('Transaction completed successfully');
-    } catch (err) {
-      await db.query('ROLLBACK');
-      console.error('Error executing query', err.stack);
-      res.status(500).send('Internal Server Error');
-    }
-  });
-
-// pay to
-app.patch("/addpayment/:id", (req, res) => {
-    const money = parseFloat(req.body.money);
-    const paidBy = req.body.paidBy;
-    const trip_id = req.params.id;
-  
-    if (isNaN(money)) {
-      return res.status(400).json({ error: "Invalid money value" });
-    }
-  
-    let members = [];
-  
-    db.query("SELECT * FROM trip_members WHERE trip_id = $1", [trip_id], (err, result) => {
-      if (err) {
-        console.error("Error executing query", err.stack);
-        return res.status(500).send("Internal Server Error");
-      }
-  
-      members = result.rows;
-      const eachOnesPart = money / members.length;
-  
-      db.query("UPDATE trips SET total_spendings = total_spendings + $1 WHERE trip_id = $2", [money, trip_id], (err, result) => {
-        if (err) {
-          console.error("Error updating total spendings", err.stack);
-          return res.status(500).send("Internal Server Error");
-        }
-  
-        let updatePromises = members.map(member => {
-          let newSpending = parseFloat(member.user_spending) - eachOnesPart;
-          if (member.user_id == paidBy) {
-            newSpending += money;
-          }
-  
-          return new Promise((resolve, reject) => {
-            db.query("UPDATE trip_members SET user_spending = $1 WHERE trip_id = $2 AND user_id = $3",
-              [newSpending, trip_id, member.user_id],
-              (err, result) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve(result);
-                }
-              }
-            );
-          });
+        const historyResponse = await axios.post("http://localhost:3001/history", {
+            amount: money,
+            paidTo: paidTo,
+            paidBy: paidBy,
+            tripId: trip_id
         });
-  
-        Promise.all(updatePromises)
-          .then(() => {
+
+        await pool.query('BEGIN');
+
+        const updatePaidBy = await pool.query(
+            "UPDATE trip_members SET user_spending = user_spending + $1 WHERE trip_id = $2 AND user_id = $3",
+            [money, trip_id, paidBy]
+        );
+
+        const updatePaidTo = await pool.query(
+            "UPDATE trip_members SET user_spending = user_spending - $1 WHERE trip_id = $2 AND user_id = $3",
+            [money, trip_id, paidTo]
+        );
+
+        await pool.query('COMMIT');
+
+        console.log('Update results:', { updatePaidBy: updatePaidBy.rowCount, updatePaidTo: updatePaidTo.rowCount });
+
+            if (updatePaidBy.rowCount === 0 || updatePaidTo.rowCount === 0) {
+                throw new Error('No rows updated');
+            }
+    
+            res.status(200).send('Transaction completed successfully');
+        } catch (err) {
+            await pool.query('ROLLBACK');
+            console.error('Error executing query', err.stack);
+            res.status(500).send('Internal Server Error');
+        }
+    });
+    
+    // pay to
+    app.patch("/addpayment/:id", async (req, res) => {
+        const money = parseFloat(req.body.money);
+        const paidBy = req.body.paidBy;
+        const trip_id = req.params.id;
+    
+        if (isNaN(money)) {
+            return res.status(400).json({ error: "Invalid money value" });
+        }
+    
+        try {
+            const membersResult = await pool.query("SELECT * FROM trip_members WHERE trip_id = $1", [trip_id]);
+            const members = membersResult.rows;
+            const eachOnesPart = money / members.length;
+    
+            await pool.query("UPDATE trips SET total_spendings = total_spendings + $1 WHERE trip_id = $2", [money, trip_id]);
+    
+            const updatePromises = members.map(member => {
+                let newSpending = parseFloat(member.user_spending) - eachOnesPart;
+                if (member.user_id == paidBy) {
+                    newSpending += money;
+                }
+    
+                return pool.query("UPDATE trip_members SET user_spending = $1 WHERE trip_id = $2 AND user_id = $3",
+                    [newSpending, trip_id, member.user_id]
+                );
+            });
+    
+            await Promise.all(updatePromises);
+    
             res.status(200).json({ message: "Payments updated successfully" });
-          })
-          .catch(error => {
+        } catch (error) {
             console.error("Error executing query", error.stack);
             res.status(500).send("Internal Server Error");
-          });
-      });
-    });
-  });
-  
-// history 
-app.get("/history",(req,res)=>{
-    const {tripId} = req.query;
-    // console.log(tripId);
-    db.query("SELECT * fROM transaction_history WHERE trip_id = $1",[tripId],(err,result)=>{
-        if(err){
-            console.error("Error executing query", err.stack);
-            res.status(500).send("Internal Server Error");
-        }else{
-            res.status(200).send(result.rows);
         }
     });
-});
-
-app.post("/history",(req,res)=>{
-    const { amount, paidTo, paidBy ,tripId} = req.body;
-    const transactionDateTime = DateTime.local();
-    db.query("INSERT INTO transaction_history (amount, paid_by, paid_to, transaction_datetime, trip_id ) VALUES ($1::DOUBLE PRECISION, $2, $3, $4, $5)",[amount, paidBy, paidTo, transactionDateTime,tripId],(err,result)=>{
-        if(err){
+    
+    // history 
+    app.get("/history", async (req, res) => {
+        const { tripId } = req.query;
+        try {
+            const result = await pool.query("SELECT * FROM transaction_history WHERE trip_id = $1", [tripId]);
+            res.status(200).json(result.rows);
+        } catch (err) {
             console.error("Error executing query", err.stack);
             res.status(500).send("Internal Server Error");
-        }else{
+        }
+    });
+    
+    app.post("/history", async (req, res) => {
+        const { amount, paidTo, paidBy, tripId } = req.body;
+        const transactionDateTime = DateTime.local();
+        try {
+            await pool.query("INSERT INTO transaction_history (amount, paid_by, paid_to, transaction_datetime, trip_id ) VALUES ($1::DOUBLE PRECISION, $2, $3, $4, $5)",
+                [amount, paidBy, paidTo, transactionDateTime, tripId]);
             console.log("Transaction added successfully");
             res.status(200).send("Transaction added successfully");
-        }
-    });
-});
-
-app.get("/settlements",(req,res)=>{
-    const {tripOrganizer,tripId} = req.query;
-    db.query("SELECT users.user_name, trip_members.user_spending, users.user_upi_id FROM trip_members INNER JOIN users ON trip_members.user_id = users.user_id WHERE trip_members.user_spending > 0 AND trip_members.trip_id = $1 AND users.user_id != $2",[tripId,tripOrganizer],(err,result)=>{
-        if(err){
+        } catch (err) {
             console.error("Error executing query", err.stack);
             res.status(500).send("Internal Server Error");
-        }else{
-            res.status(200).send(result.rows);
         }
     });
-});
-
-app.get("/userSpendings",(req,res)=>{
-    const {user_id,trip_id} = req.query;
-    db.query("SELECT * FROM trip_members WHERE trip_id = $1 AND user_id = $2",[trip_id,user_id],(err,result)=>{
-        if(err){
+    
+    app.get("/settlements", async (req, res) => {
+        const { tripOrganizer, tripId } = req.query;
+        try {
+            const result = await pool.query("SELECT users.user_name, trip_members.user_spending, users.user_upi_id FROM trip_members INNER JOIN users ON trip_members.user_id = users.user_id WHERE trip_members.user_spending > 0 AND trip_members.trip_id = $1 AND users.user_id != $2", [tripId, tripOrganizer]);
+            res.status(200).json(result.rows);
+        } catch (err) {
             console.error("Error executing query", err.stack);
             res.status(500).send("Internal Server Error");
-        }else{
-            res.status(200).send(result.rows[0]);
         }
     });
-});
-
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
+    
+    app.get("/userSpendings", async (req, res) => {
+        const { user_id, trip_id } = req.query;
+        try {
+            const result = await pool.query("SELECT * FROM trip_members WHERE trip_id = $1 AND user_id = $2", [trip_id, user_id]);
+            res.status(200).json(result.rows[0]);
+        } catch (err) {
+            console.error("Error executing query", err.stack);
+            res.status(500).send("Internal Server Error");
+        }
+    });
+    
+    app.listen(port, () => {
+        console.log(`Server running on http://localhost:${port}`);
+    });
+    
