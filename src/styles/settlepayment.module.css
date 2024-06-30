@@ -2,20 +2,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: calc(100vh - 8.4vh);
   }
   
   .settleCard {
-    background: linear-gradient(135deg, #0c1348 0%, #338cea 100%);
+    background-color: #fff;
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
+    
   }
   
   .settleTitle {
-    color: #fff;
+    color: #0D3685;
     font-size: 1.8rem;
     margin-bottom: 30px;
     text-align: center;
@@ -29,16 +30,16 @@
   }
   
   .settlementCard {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(9, 110, 153, 0.1);
     border-radius: 10px;
     padding: 15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    color: #fff;
+    color: #0D3685;
   }
   
   .settlementCard:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(9, 55, 77, 0.2);
   }
   
   .userName {
@@ -52,13 +53,13 @@
   
   .paymentCard {
     text-align: center;
-    color: #fff;
+    color: #0D3685;
   }
   
   .inputGroup {
     display: flex;
     margin-bottom: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(20, 141, 169, 0.1);
     border-radius: 10px;
     overflow: hidden;
   }
@@ -68,7 +69,7 @@
     padding: 15px;
     border: none;
     background: transparent;
-    color: #fff;
+    color: #0D3685;
     font-size: 1.2rem;
     text-align: center;
     outline: none;
@@ -81,7 +82,7 @@
   }
   
   .incrementButton {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(120, 199, 236, 0.2);
     border: none;
     padding: 15px;
     cursor: pointer;
@@ -92,17 +93,17 @@
   }
   
   .incrementButton:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(30, 185, 205, 0.3);
   }
   
   .incrementButton svg {
     width: 24px;
     height: 24px;
-    color: #fff;
+    color: #0D3685;
   }
   
   .payButton {
-    background-color: #4CAF50;
+    background-color: #58C9F4;
     color: white;
     border: none;
     padding: 15px;
@@ -116,14 +117,14 @@
   }
   
   .payButton:hover {
-    background-color: #45a049;
+    background-color: #1399ca;
   }
   
   .balanceInfo {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #fff;
+    color: #0D3685;
     font-size: 1.1rem;
   }
   

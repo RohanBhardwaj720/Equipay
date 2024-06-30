@@ -12,40 +12,36 @@ function Transaction({ place, trip, user }) {
       history.push(`/trip/${id}${path}`, { trip: trip, user: user });
     } else {
       console.error('Trip ID is not available');
-      // You might want to handle this later , Rohan
     }
   };
 
   if (!trip) {
-    return <div>Loading...</div>; // Loading for now
+    return <div className={styles.loading}>Loading...</div>;
   }
 
   return (
-    <div className={styles.trip_card_1}>
-      <h1>
+    <div className={styles.tripCard}>
+      <h1 className={styles.tripTitle}>
         <span className={styles.locationIcon}>
           <LocationOnIcon />
-        </span>{' '}
+        </span>
         {place} Trip
       </h1>
-      <hr />
-      <div className={styles.icons}>
+      <hr className={styles.divider} />
+      <div className={styles.iconsContainer}>
         <div className={styles.icon} onClick={() => navigateTo('/history')}>
           <img
             src="https://i.pinimg.com/564x/94/03/1e/94031ef5b93fefabfa594e9e0b2503d8.jpg"
             alt="history_icon"
           />
-          <p>
-            Transaction <br />
-            History
-          </p>
+          <p>Transaction<br />History</p>
         </div>
         <div className={styles.icon} onClick={() => navigateTo('/pay')}>
           <img
             src="https://i.pinimg.com/564x/2e/08/f0/2e08f02e3be8eed4a8f86766c15900c4.jpg"
             alt="scan_and_pay_icon"
           />
-          <p>Add Payment</p>
+          <p>Scan & Pay</p>
         </div>
         <div className={styles.icon} onClick={() => user.user_id === trip.trip_organizer ? navigateTo('/settlePayment') : navigateTo('/payYourShare')}>
           {user.user_id === trip.trip_organizer ? (
@@ -62,10 +58,7 @@ function Transaction({ place, trip, user }) {
                 src="https://i.pinimg.com/564x/1b/5f/ef/1b5fef94158fdbc0ac4f8b53c812c224.jpg"
                 alt="pay_your_share_icon"
               />
-              <p>
-                Pay Your <br />
-                Share
-              </p>
+              <p>Pay Your<br />Share</p>
             </>
           )}
         </div>

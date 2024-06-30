@@ -1,40 +1,45 @@
-.trip_card_1 {
-  border-radius: 15px;
-  background-color: #ffffff;
+.tripCard {
   width: 100%;
-  max-width: 30rem;
-  padding: 20px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  margin: 2rem auto;
+  padding: 0;
   font-family: 'Nunito', sans-serif;
 }
 
-.trip_card_1 h1 {
-  font-weight: normal;
-  margin: 5px 0;
+.tripTitle {
+  font-weight: 600;
+  margin: 0 0 15px 0;
   display: flex;
   align-items: center;
+  font-size: 1.5rem;
 }
 
 .locationIcon {
   color: #BF1227;
   margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
 
-.icons {
+.divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 0 0 15px 0;
+}
+
+.iconsContainer {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  margin-top: 10px;
 }
 
 .icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  flex: 1;
+  min-width: 80px;
+  max-width: 120px;
 }
 
 .icon:hover {
@@ -46,28 +51,38 @@
   height: 5rem;
   object-fit: cover;
   border-radius: 50%;
-  transition: box-shadow 0.3s ease;
-}
-
-.icon:hover img {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .icon p {
   text-align: center;
-  margin-top: 10px;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  line-height: 1.2;
 }
 
-@media (max-width: 600px) {
-  .trip_card_1 {
-    padding: 15px;
-  }
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 20px;
+}
 
-  .icons {
-    flex-direction: column;
+@media (max-width: 480px) {
+  .tripTitle {
+    font-size: 1.3rem;
   }
 
   .icon {
-    margin: 15px 0;
+    min-width: 70px;
+    max-width: 100px;
+  }
+
+  .icon img {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .icon p {
+    font-size: 0.8rem;
   }
 }

@@ -52,6 +52,7 @@ function Pay(props) {
   }
 
   return (
+    <div className={styles.payment_form_container}>
     <div className={styles.payment_form}>
       <input
         className={styles.payment_input}
@@ -66,6 +67,7 @@ function Pay(props) {
         onChange={handleChange}
       />
       <button className={styles.payment_button} onClick={handle}>Add Payment</button>
+    </div>
     </div>
   );
 }

@@ -2,12 +2,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    
+    height: calc(100vh - 8.4vh);
   }
   
   .paymentCard {
-    background: linear-gradient(135deg, #0c1348 0%, #338cea 100%);
+    background-color: #fff;
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -16,7 +15,7 @@
   }
   
   .paymentTitle {
-    color: #fff;
+    color:#0D3685;
     font-size: 1.8rem;
     margin-bottom: 30px;
     text-align: center;
@@ -26,7 +25,7 @@
   .inputGroup {
     display: flex;
     margin-bottom: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(84, 79, 79, 0.1);
     border-radius: 10px;
     overflow: hidden;
   }
@@ -36,7 +35,7 @@
     padding: 15px;
     border: none;
     background: transparent;
-    color: #fff;
+    color:#0D3685;
     font-size: 1.2rem;
     text-align: center;
     outline: none;
@@ -49,7 +48,7 @@
   }
   
   .incrementButton {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(122, 194, 249, 0.2);
     border: none;
     padding: 15px;
     cursor: pointer;
@@ -60,18 +59,18 @@
   }
   
   .incrementButton:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(13, 143, 169, 0.3);
   }
   
   .incrementButton svg {
     width: 24px;
     height: 24px;
-    color: #fff;
+    color:#0D3685;
   }
   
   .payButton {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #59c9f5;
+    color:white;
     border: none;
     padding: 15px;
     border-radius: 10px;
@@ -84,14 +83,14 @@
   }
   
   .payButton:hover {
-    background-color: #45a049;
+    background-color: #34a4d8;
   }
   
   .balanceInfo {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #fff;
+    color:#0D3685;
     font-size: 1.1rem;
   }
   
@@ -101,7 +100,7 @@
   }
   .upiOverlay {
     position: fixed;
-    top: 0;
+    top: 8vh;
     left: 0;
     right: 0;
     bottom: 0;
@@ -125,7 +124,7 @@
   .closeButton {
     margin-top: 20px;
     padding: 10px 20px;
-    color: white;
+    color:white;
     background-color: #d32f2f;
     border: none;
     border-radius: 5px;

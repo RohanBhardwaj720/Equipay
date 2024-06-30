@@ -21,6 +21,7 @@ function AddTrip(props) {
             user_id: props.user.user_id
           }
         });
+        console.log(response.data);
         setTrips(response.data);
       } catch (error) {
         console.log('Error fetching trips array', error);
@@ -64,7 +65,7 @@ function AddTrip(props) {
         console.error('Error fetching user data:', error);
       }
     }
-
+    
     try {
       const response2 = await axios.post('http://localhost:3001/trip', {
         place: place,

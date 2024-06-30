@@ -94,7 +94,7 @@ function SettlePayment() {
                 onClick={() => handleCardClick(settlement)}
               >
                 <p className={styles.userName}>{settlement.user_name}</p>
-                <p className={styles.amount}>₹{settlement.user_spending}</p>
+                <p className={styles.amount}>₹{settlement.user_spending.toFixed(2)}</p>
               </div>
             ))}
           </div>
@@ -121,10 +121,10 @@ function SettlePayment() {
                 </svg>
               </button>
             </div>
-            <button className={styles.payButton} onClick={handlePayClick}>Pay ₹{amount}</button>
+            <button className={styles.payButton} onClick={handlePayClick}>Pay ₹{amount.toFixed(2)}</button>
             <div className={styles.balanceInfo}>
               <span>Amount to pay:</span>
-              <span className={styles.negative}>₹{selectedSettlement.user_spending}</span>
+              <span className={styles.negative}>₹{selectedSettlement.user_spending.toFixed(2)}</span>
             </div>
           </div>
         )}
@@ -144,7 +144,7 @@ function SettlePayment() {
   <div className={styles.confirmationOverlay}>
     <div className={styles.confirmationCard}>
       <h3 className={styles.confirmationTitle}>Confirm Payment</h3>
-      <p className={styles.confirmationText}>Have you completed the payment of ₹{amount} to {selectedSettlement.user_name}?</p>
+      <p className={styles.confirmationText}>Have you completed the payment of ₹{amount.toFixed(2)} to {selectedSettlement.user_name}?</p>
       <div className={styles.confirmationButtons}>
         <button className={styles.confirmButton} onClick={() => handleConfirmation(true)}>Yes, I've paid</button>
         <button className={styles.cancelButton} onClick={() => handleConfirmation(false)}>No, cancel</button>

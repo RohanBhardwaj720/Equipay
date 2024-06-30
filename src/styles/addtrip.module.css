@@ -114,6 +114,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  height: calc(100vh - 8.4vh);
 }
 
 .sectionTitle {

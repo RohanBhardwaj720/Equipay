@@ -49,6 +49,7 @@ function TransactionHistory(props) {
   }, [trip]);
 
   return (
+    <div className={styles.outer_container}>
     <div className={styles.container}>
       <h2 className={styles.history_heading}>Transaction history</h2>
       <div className={styles.transaction_list}>
@@ -66,7 +67,7 @@ function TransactionHistory(props) {
                 </div>
                 <div className={styles.user_details}>
                   <h3>{userDetail.user_name || 'Unknown'}</h3>
-                  <p>{format(data.transaction_datetime, 'MMMM dd, yyyy')}</p>
+                  <p>{format(data.transaction_datetime, 'MMM dd, yyyy')}</p>
                 </div>
               </div>
               <div className={styles.transaction_details}>
@@ -77,6 +78,7 @@ function TransactionHistory(props) {
           );
         })}
       </div>
+    </div>
     </div>
   );
 }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import Home from './home.jsx';
 import Header from './header.jsx';
-import Footer from './footer.jsx';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import styles from '../styles/app.module.css';
@@ -136,7 +135,6 @@ function App() {
           </div>
         )}
       
-      <Footer />
     </div>
   );
 }
