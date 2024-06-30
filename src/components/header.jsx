@@ -6,9 +6,9 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import '../styles/confirmAlert.css';
 
-function Header(props) {
+function Header({ isAuth, handleLogout }) {
   const handleAuthAction = () => {
-    if (props.isAuth) {
+    if (isAuth) {
       confirmAlert({
         title: 'Confirm Log Out',
         message: 'Are you sure you want to log out?',
@@ -16,7 +16,7 @@ function Header(props) {
           {
             label: 'Yes',
             onClick: () => {
-              props.setAuth(false);
+              handleLogout();
               console.log('Logged out successfully');
             }
           },
@@ -35,7 +35,7 @@ function Header(props) {
         <i className={styles.equi}>Equi</i>
         <i>Pay</i>
       </h1>
-      {props.isAuth && (
+      {isAuth && (
         <button
           className={styles.authButton}
           onClick={handleAuthAction}

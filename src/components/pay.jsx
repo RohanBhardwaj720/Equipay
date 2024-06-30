@@ -43,7 +43,7 @@ function Pay(props) {
       (err, res) => {
         if (err) {
           console.log('error patching the trip', err)
-        }
+        }      
       }
     )
     trip.total_spendings += parseInt(inputMoney)

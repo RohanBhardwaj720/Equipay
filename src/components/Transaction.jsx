@@ -47,7 +47,17 @@ function Transaction({ place, trip, user }) {
           />
           <p>Add Payment</p>
         </div>
-        <div className={styles.icon} onClick={() => navigateTo('/payYourShare')}>
+        <div className={styles.icon} onClick={() => user.user_id === trip.trip_organizer ? navigateTo('/settlePayment') : navigateTo('/payYourShare')}>
+      {user.user_id === trip.trip_organizer ? (
+        <>
+          <img
+            src="/SettlePayment.png"
+            alt="SettlePayment icon"
+          />
+          <p>Settle Payment</p>
+        </>
+      ) : (
+        <>
           <img
             src="https://i.pinimg.com/564x/1b/5f/ef/1b5fef94158fdbc0ac4f8b53c812c224.jpg"
             alt="pay_your_share_icon"
@@ -56,7 +66,9 @@ function Transaction({ place, trip, user }) {
             Pay Your <br />
             Share
           </p>
-        </div>
+        </>
+      )}
+    </div>
       </div>
     </div>
   );

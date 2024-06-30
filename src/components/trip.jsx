@@ -60,7 +60,7 @@ function Trip(props) {
             {members.map((member, idx) => (
               <li key={idx}>
                 {member.user_name}
-                <span>₹ {member.user_spending}</span>
+                <span>₹ {member.user_spending.toFixed(2)}</span>
               </li>
             ))}
           </ol>

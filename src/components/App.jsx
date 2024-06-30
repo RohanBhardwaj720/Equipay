@@ -82,9 +82,17 @@ function App() {
     }
   };
 
+  const handleLogout = () => {
+    setAuthenticated(false);
+    
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    window.location.href = '/';
+  };
   return (
-    <div>
-      <Header isAuth={isAuthenticated} setAuth={setAuthenticated} />
+    <div >
+      <Header isAuth={isAuthenticated}  handleLogout={handleLogout} />
       
         {isAuthenticated ? (
           <div>

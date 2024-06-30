@@ -1,12 +1,11 @@
-.paymentContainer {
+.settleContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    
   }
   
-  .paymentCard {
+  .settleCard {
     background: linear-gradient(135deg, #0c1348 0%, #338cea 100%);
     border-radius: 20px;
     padding: 40px;
@@ -15,12 +14,45 @@
     max-width: 400px;
   }
   
-  .paymentTitle {
+  .settleTitle {
     color: #fff;
     font-size: 1.8rem;
     margin-bottom: 30px;
     text-align: center;
     font-weight: 600;
+  }
+  
+  .settlementCards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .settlementCard {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #fff;
+  }
+  
+  .settlementCard:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .userName {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .amount {
+    font-size: 1.1rem;
+  }
+  
+  .paymentCard {
+    text-align: center;
+    color: #fff;
   }
   
   .inputGroup {
@@ -99,6 +131,7 @@
     color: #ffa07a;
     font-weight: bold;
   }
+  
   .upiOverlay {
     position: fixed;
     top: 0;
@@ -184,12 +217,34 @@
   .cancelButton:hover {
     background-color: #d32f2f;
   }
+  .paymentTitle {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
   @media (max-width: 480px) {
-    .paymentCard {
+    .confirmationCard {
+        padding: 20px;
+      }
+    
+      .confirmationTitle {
+        font-size: 1.5rem;
+      }
+    
+      .confirmationText {
+        font-size: 1rem;
+      }
+    
+      .confirmationButtons button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    .settleCard {
       padding: 30px;
     }
   
-    .paymentTitle {
+    .settleTitle {
       font-size: 1.5rem;
     }
   

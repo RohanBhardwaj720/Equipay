@@ -6,12 +6,12 @@ import styles from '../styles/displaytrip.module.css';
 
 function DisplayTrip({ trip, user }) {
   const [Trip, setTrip] = useState(trip);
-
+  const [ amount,setAmount] = useState(0);
   useEffect(() => {
     const fetchTripData = async () => {
       try {
         const response = await axios.get('http://localhost:3001/trip', {
-          params: { trip_id: trip.id }
+          params: { trip_id: trip.trip_id }
         });
         setTrip(response.data);
       } catch (error) {
@@ -20,12 +20,26 @@ function DisplayTrip({ trip, user }) {
     };
 
     fetchTripData();
-  }, [trip.id]);
+  }, [trip.trip_id]);
 
-  const { message, moneyColor, amount, formattedDate } = useMemo(() => {
+  useEffect(() => {
+    const fetchUserSpendings = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/userSpendings', {
+          params: { trip_id: trip.trip_id , user_id: user.user_id}
+        });
+        setAmount(response.data.user_spending.toFixed(2));
+      } catch (error) {
+        console.error('Error fetching user Spendings:', error);
+      }
+    };
+
+    fetchUserSpendings();
+  }, []);
+
+  const { message, moneyColor, formattedDate } = useMemo(() => {
     let message = '';
     let moneyColor = '';
-    let amount = Trip.total_spendings;
     const formattedDate = format(new Date(trip.start_datetime), 'MMMM dd, yyyy');
 
     if (amount > 0) {
@@ -40,8 +54,8 @@ function DisplayTrip({ trip, user }) {
     }
 
     return { message, moneyColor, amount, formattedDate };
-  }, [Trip.total_spendings, Trip.start_datetime]);
-
+  }, [Trip.total_spendings, Trip.start_datetime,amount]);
+  console.log(Trip.total_spendings);
   return (
     <Link
       to={{
