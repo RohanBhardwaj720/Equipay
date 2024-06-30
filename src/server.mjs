@@ -7,8 +7,8 @@ import axios from 'axios';
 import fetch from 'node-fetch';
 
 const app = express();
-const port = 3001;
 env.config();
+const port = process.env.PG_PORT;
 
 const { Pool } = pg;
 
