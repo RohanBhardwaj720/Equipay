@@ -43,43 +43,39 @@ function DisplayTrip({ trip, user }) {
     const formattedDate = format(new Date(trip.start_datetime), 'MMMM dd, yyyy');
 
     if (amount > 0) {
-      message = 'You lent ';
-      moneyColor = styles.green;
+      message = 'You lent';
+      moneyColor = 'green';
     } else if (amount < 0) {
-      message = 'You owe ';
-      moneyColor = styles.red;
+      message = 'You owe';
+      moneyColor = 'red';
     } else {
-      message = 'You are settled';
-      moneyColor = styles.none;
+      message = 'Settled';
+      moneyColor = '';
     }
 
-    return { message, moneyColor, amount, formattedDate };
-  }, [Trip.total_spendings, Trip.start_datetime,amount]);
-  console.log(Trip.total_spendings);
+    return { message, moneyColor, formattedDate };
+  }, [Trip.total_spendings, Trip.start_datetime, amount]);
+
   return (
-    <Link
-      to={{
-        pathname: `/trip/${trip.trip_id}`,
-        state: {
-          user: user,
-          trip: trip
-        }
-      }}
-      className={styles.trip_link}
-    >
+    <Link to={{ pathname: `/trip/${trip.trip_id}`, state: { user, trip } }} className={styles.trip_link}>
       <div id={styles.trip_display}>
-        <div id={styles.heading_in_trip_card}>
-          <h1>{Trip.place}</h1>
+        <div id={styles.trip_header}>
+          <h2>{Trip.place}</h2>
           <p>{formattedDate}</p>
-          <p>₹ {Trip.total_spendings}</p>
         </div>
-        <h2 id={styles.message}>
-          {message}
-          {amount !== 0 && <span className={moneyColor}>₹{Math.abs(amount)}</span>}
-        </h2>
+        <div id={styles.trip_body}>
+          <div id={styles.trip_total}>
+            Total Spendings: ₹{Trip.total_spendings}
+          </div>
+          <div id={styles.trip_status}>
+            <span id={styles.status_message}>{message}</span>
+            <span id={styles.status_amount} className={styles[moneyColor]}>
+              ₹{Math.abs(amount).toFixed(2)}
+            </span>
+          </div>
+        </div>
       </div>
     </Link>
   );
 }
-
 export default DisplayTrip;

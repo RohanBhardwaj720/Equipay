@@ -6,38 +6,8 @@
   html {
     font-family: "Montserrat", sans-serif;
   }
-  body {
-   background-color: #00a6e4;
+  body{
+    background: linear-gradient(135deg, #bdf3fa, #419bc5);
   }
-  
-
-#history_card{
-  border-radius: 12px;
-  background-color: #fff;
-
-}
-
-.grey{
-  background-color: #ECEFEF;
-}
-
-.data{
-  padding:5px;
-  margin-left:20px;
-  margin-right:20px;
-  position: relative;
-  font-family: "Work Sans", sans-serif;
-  font-size:small;
-}
-
-.data p{
-  font-weight:300;
-  padding:1px;
-}
-
-.data h3{
-  font-weight:400;
-  padding:1px;
-}
-
+ 
 

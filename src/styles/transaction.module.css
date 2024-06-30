@@ -1,32 +1,73 @@
-#trip_card_1 {
+.trip_card_1 {
   border-radius: 15px;
   background-color: #ffffff;
-  width: 30rem;
-  padding: 10px;
+  width: 100%;
+  max-width: 30rem;
+  padding: 20px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  margin: 2rem;
+  margin: 2rem auto;
   font-family: 'Nunito', sans-serif;
 }
 
-#trip_card_1 h1 {
+.trip_card_1 h1 {
   font-weight: normal;
-  margin: 5px;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
 }
 
-#trip_card_1 .icons {
+.locationIcon {
+  color: #BF1227;
+  margin-right: 10px;
+}
+
+.icons {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  flex-wrap: wrap;
   margin-top: 10px;
 }
 
-#trip_card_1 .icon {
-  display: inline-block;
+.icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
-#trip_card_1 img {
+.icon:hover {
+  transform: scale(1.1);
+}
+
+.icon img {
   width: 5rem;
   height: 5rem;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease;
 }
-#trip_card_1 p {
+
+.icon:hover img {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.icon p {
   text-align: center;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .trip_card_1 {
+    padding: 15px;
+  }
+
+  .icons {
+    flex-direction: column;
+  }
+
+  .icon {
+    margin: 15px 0;
+  }
 }

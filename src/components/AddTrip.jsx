@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import DoneIcon from '@mui/icons-material/Done';
 import { DisplayMember } from './Display_member.jsx';
 import { DateTime } from 'luxon';
 import DisplayTrip from './Display_Trip.jsx';
@@ -74,11 +73,11 @@ function AddTrip(props) {
       });
 
       const newTrip = {
-        start_datetime: today.toJSDate(), // Convert to JavaScript Date object
+        start_datetime: today.toJSDate(),
         place: place,
         trip_organizer: props.user.user_id,
         total_spendings: 0,
-        trip_id: response2.data.trip_id // Assuming response2.data contains the trip ID
+        trip_id: response2.data.trip_id
       };
 
       setTrips((prev) => [newTrip, ...prev]);
@@ -93,52 +92,54 @@ function AddTrip(props) {
   }
 
   return (
-    <div>
-      <form className={styles.Add_trip} onSubmit={handle}>
-        <input
-          name="Place"
-          placeholder="Trip To..."
-          onChange={handlePlaceChange}
-          value={place}
-          autoComplete="off"
-        />
+    <div className={styles.pageContainer}>
+      <div className={styles.addTripSection}>
+        <form className={styles.Add_trip} onSubmit={handle}>
+          <input
+            name="Place"
+            placeholder="Trip To..."
+            onChange={handlePlaceChange}
+            value={place}
+            autoComplete="off"
+          />
+          <div className={styles.emailInputContainer}>
+            <input
+              name="email"
+              placeholder="Enter Member Email"
+              onChange={handleEmailChange}
+              value={email}
+              autoComplete="off"
+            />
+            <button id={styles.Add_person} onClick={AddPerson} type="button">
+              Add
+            </button>
+          </div>
+          <div className={styles.addedEmails}>
+            {members.map((member_detail, idx) => {
+              if (idx !== 0) {
+                return <DisplayMember member={member_detail} idx={idx} key={idx} />;
+              }
+              return null;
+            })}
+          </div>
+          <button type="submit" id={styles.Add_group}>
+            <AddIcon />
+          </button>
+        </form>
+      </div>
 
-        <input
-          name="email"
-          placeholder="Enter Member Email"
-          onChange={handleEmailChange}
-          value={email}
-          autoComplete="off"
-        />
-
-        <button id={styles.Add_person} onClick={AddPerson} type="button">
-          <DoneIcon />
-        </button>
-
-        <div>
-          {members.map((member_detail, idx) => {
-            if (idx !== 0) {
-              return <DisplayMember member={member_detail} idx={idx} key={idx} />;
-            }
-            return null;
-          })}
-        </div>
-
-        <button type="submit" id={styles.Add_group}>
-          <AddIcon />
-        </button>
-      </form>
-
-      <div>
-        {trips.map((Trip, idx) => (
-          <div key={idx}>
+      <div className={styles.tripsSection}>
+        <h2 className={styles.sectionTitle}>Your Trips</h2>
+        <div className={styles.trips_container}>
+          {trips.map((Trip, idx) => (
             <DisplayTrip
+              key={Trip.trip_id}
               trip={Trip}
               idx={idx}
               user={props.user}
             />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

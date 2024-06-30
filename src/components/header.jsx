@@ -30,22 +30,25 @@ function Header({ isAuth, handleLogout }) {
   };
 
   return (
-    <header className={styles.header}>
-      <h1>
-        <i className={styles.equi}>Equi</i>
-        <i>Pay</i>
-      </h1>
-      {isAuth && (
-        <button
-          className={styles.authButton}
-          onClick={handleAuthAction}
-        >
-          <FontAwesomeIcon icon={faSignOutAlt} />
-          {' '}
-          Log Out
-        </button>
-      )}
-    </header>
+    <>
+      <header className={styles.header}>
+        <h1>
+          <i className={styles.equi}>Equi</i>
+          <i>Pay</i>
+        </h1>
+        {isAuth && (
+          <button
+            className={styles.authButton}
+            onClick={handleAuthAction}
+          >
+            <FontAwesomeIcon icon={faSignOutAlt} />
+            {' '}
+            Log Out
+          </button>
+        )}
+      </header>
+      <div style={{ height: '60px' }} /> {/* Spacer to prevent content from being hidden under the fixed header */}
+    </>
   );
 }
 

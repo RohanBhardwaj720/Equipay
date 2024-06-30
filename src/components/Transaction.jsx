@@ -6,24 +6,24 @@ import styles from '../styles/transaction.module.css';
 function Transaction({ place, trip, user }) {
   const history = useHistory();
   const id = trip ? trip.trip_id : null;
-  
+
   const navigateTo = (path) => {
     if (id) {
       history.push(`/trip/${id}${path}`, { trip: trip, user: user });
     } else {
       console.error('Trip ID is not available');
-      // You might want to handle this case, perhaps by redirecting to a different page
+      // You might want to handle this later , Rohan
     }
   };
 
   if (!trip) {
-    return <div>Loading...</div>; // Or any other placeholder
+    return <div>Loading...</div>; // Loading for now
   }
 
   return (
-    <div id={styles.trip_card_1}>
+    <div className={styles.trip_card_1}>
       <h1>
-        <span style={{ color: '#BF1227' }}>
+        <span className={styles.locationIcon}>
           <LocationOnIcon />
         </span>{' '}
         {place} Trip
@@ -48,27 +48,27 @@ function Transaction({ place, trip, user }) {
           <p>Add Payment</p>
         </div>
         <div className={styles.icon} onClick={() => user.user_id === trip.trip_organizer ? navigateTo('/settlePayment') : navigateTo('/payYourShare')}>
-      {user.user_id === trip.trip_organizer ? (
-        <>
-          <img
-            src="/SettlePayment.png"
-            alt="SettlePayment icon"
-          />
-          <p>Settle Payment</p>
-        </>
-      ) : (
-        <>
-          <img
-            src="https://i.pinimg.com/564x/1b/5f/ef/1b5fef94158fdbc0ac4f8b53c812c224.jpg"
-            alt="pay_your_share_icon"
-          />
-          <p>
-            Pay Your <br />
-            Share
-          </p>
-        </>
-      )}
-    </div>
+          {user.user_id === trip.trip_organizer ? (
+            <>
+              <img
+                src="/SettlePayment.png"
+                alt="SettlePayment icon"
+              />
+              <p>Settle Payment</p>
+            </>
+          ) : (
+            <>
+              <img
+                src="https://i.pinimg.com/564x/1b/5f/ef/1b5fef94158fdbc0ac4f8b53c812c224.jpg"
+                alt="pay_your_share_icon"
+              />
+              <p>
+                Pay Your <br />
+                Share
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
