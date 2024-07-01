@@ -24,7 +24,7 @@ function Trip(props) {
       const fetchTripMembers = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/trip/members`,
+            `/api/trip/members`,
             {
               params: { trip_id: trip.trip_id }
             }

@@ -33,7 +33,7 @@ function App() {
     const info = jwtDecode(credentialResponse.credential)
     try {
       const response = await axios.post(
-        `http://localhost:5000/user`,
+        `/api/user`,
         {
           email: info.email,
           picture: info.picture,
@@ -70,7 +70,7 @@ function App() {
     if (upiId) {
       try {
         const response = await axios.post(
-          `http://localhost:5000/user/upi`,
+          `/api/user/upi`,
           {
             user_id: userDetails.user_id,
             upiId: upiId

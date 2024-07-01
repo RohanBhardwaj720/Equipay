@@ -11,7 +11,7 @@ function DisplayTrip({ trip, user }) {
     const fetchTripData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/trip`,
+          `/api/trip`,
           {
             params: { trip_id: trip.trip_id }
           }
@@ -29,7 +29,7 @@ function DisplayTrip({ trip, user }) {
     const fetchUserSpendings = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/userSpendings`,
+          `/api/userSpendings`,
           {
             params: { trip_id: trip.trip_id, user_id: user.user_id }
           }

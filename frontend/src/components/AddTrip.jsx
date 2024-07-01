@@ -18,7 +18,7 @@ function AddTrip(props) {
   const fetchTrips = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/trip/all`,
+        `/api/trip/all`,
         {
           params: {
             user_id: props.user.user_id
@@ -61,7 +61,7 @@ function AddTrip(props) {
     for (let member of members) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/user`,
+          `/api/user`,
           {
             params: {
               email: member
@@ -76,7 +76,7 @@ function AddTrip(props) {
 
     try {
       const response2 = await axios.post(
-        `http://localhost:5000/trip`,
+        `/api/trip`,
         {
           place: place,
           members_id: member_ids,

@@ -16,7 +16,7 @@ function PayYourShare(props) {
   const fetchSpending = async (userId, tripId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/spending`,
+        `/api/spending`,
         {
           params: { userId, tripId }
         }
@@ -30,7 +30,7 @@ function PayYourShare(props) {
   const fetchTripOrganizer = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/user/${trip.trip_organizer}`
+        `/api/user/${trip.trip_organizer}`
       )
       setTripOrganizerDetails(response.data)
     } catch (error) {
@@ -66,7 +66,7 @@ function PayYourShare(props) {
     if (confirmed) {
       try {
         await axios.patch(
-          `http://localhost:5000/pay/${trip.trip_id}`,
+          `/api/pay/${trip.trip_id}`,
           {
             money: amount,
             paidTo: trip.trip_organizer,

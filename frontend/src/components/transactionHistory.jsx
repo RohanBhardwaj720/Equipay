@@ -14,7 +14,7 @@ function TransactionHistory(props) {
     async function fetchData() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/history`,
+          `/api/history`,
           {
             params: {
               tripId: trip.trip_id
@@ -26,7 +26,7 @@ function TransactionHistory(props) {
         // Fetch user details for each unique user ID
         const uniqueUserIds = Array.from(new Set(response.data.map((data) => data.paid_by)))
         const userDetailsPromises = uniqueUserIds.map((userId) =>
-          axios.get(`http://localhost:5000/user`, {
+          axios.get(`/api/user`, {
             params: { user_id: userId }
           })
         )

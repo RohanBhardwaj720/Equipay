@@ -29,10 +29,10 @@ const downloadImageAsBase64 = async (url) => {
 // for user table
 // to get user details like picture, name and email
 // Handle query parameters
-app.get('/user', handleUserRequest)
+app.get('/api/user', handleUserRequest)
 
 // Handle path parameters
-app.get('/user/:id', handleUserRequest)
+app.get('/api/user/:id', handleUserRequest)
 
 async function handleUserRequest(req, res) {
   const email = req.query.email
@@ -67,7 +67,7 @@ async function handleUserRequest(req, res) {
 }
 
 // to post user details, when user logged in for the first time
-app.post('/user', async (req, res) => {
+app.post('/api/user', async (req, res) => {
   const { email, picture, name } = req.body
 
   try {
@@ -95,7 +95,7 @@ app.post('/user', async (req, res) => {
 })
 
 // post user upi_id
-app.post('/user/upi', async (req, res) => {
+app.post('/api/user/upi', async (req, res) => {
   const { user_id, upiId } = req.body
 
   try {
@@ -111,7 +111,7 @@ app.post('/user/upi', async (req, res) => {
 // for trips table
 
 //get all trips
-app.get('/trip/all', async (req, res) => {
+app.get('/api/trip/all', async (req, res) => {
   const { user_id } = req.query
   try {
     const result = await pool.query(
@@ -127,7 +127,7 @@ app.get('/trip/all', async (req, res) => {
 })
 
 // get information about the trip
-app.get('/trip', async (req, res) => {
+app.get('/api/trip', async (req, res) => {
   const { trip_id } = req.query
   try {
     const result = await pool.query('SELECT * FROM trips WHERE trip_id = $1', [trip_id])
@@ -144,7 +144,7 @@ app.get('/trip', async (req, res) => {
 })
 
 // post a new trip
-app.post('/trip', async (req, res) => {
+app.post('/api/trip', async (req, res) => {
   const { place, members_id, tripOrganizer } = req.body
   const totalSpending = 0
   const userSpending = 0
@@ -176,7 +176,7 @@ app.post('/trip', async (req, res) => {
 })
 
 // Get trip members
-app.get('/trip/members', async (req, res) => {
+app.get('/api/trip/members', async (req, res) => {
   const { trip_id } = req.query
   try {
     const response = await pool.query(
@@ -192,7 +192,7 @@ app.get('/trip/members', async (req, res) => {
 })
 
 // Get member spending
-app.get('/spending', async (req, res) => {
+app.get('/api/spending', async (req, res) => {
   const { userId, tripId } = req.query
   try {
     const result = await pool.query(
@@ -211,7 +211,7 @@ app.get('/spending', async (req, res) => {
 })
 
 // Pay your share
-app.patch('/pay/:id', async (req, res) => {
+app.patch('/api/pay/:id', async (req, res) => {
   let { money, paidBy, paidTo } = req.body
   const trip_id = req.params.id
   money = parseFloat(money)
@@ -254,7 +254,7 @@ app.patch('/pay/:id', async (req, res) => {
 })
 
 // pay to
-app.patch('/addpayment/:id', async (req, res) => {
+app.patch('/api/addpayment/:id', async (req, res) => {
   const money = parseFloat(req.body.money)
   const paidBy = req.body.paidBy
   const trip_id = req.params.id
@@ -297,7 +297,7 @@ app.patch('/addpayment/:id', async (req, res) => {
 })
 
 // history
-app.get('/history', async (req, res) => {
+app.get('/api/history', async (req, res) => {
   const { tripId } = req.query
   try {
     const result = await pool.query('SELECT * FROM transaction_history WHERE trip_id = $1', [
@@ -310,7 +310,7 @@ app.get('/history', async (req, res) => {
   }
 })
 
-app.post('/history', async (req, res) => {
+app.post('/api/history', async (req, res) => {
   const { amount, paidTo, paidBy, tripId } = req.body
   const transactionDateTime = DateTime.local()
   try {
@@ -326,7 +326,7 @@ app.post('/history', async (req, res) => {
   }
 })
 
-app.get('/settlements', async (req, res) => {
+app.get('/api/settlements', async (req, res) => {
   const { tripOrganizer, tripId } = req.query
   try {
     const result = await pool.query(
@@ -340,7 +340,7 @@ app.get('/settlements', async (req, res) => {
   }
 })
 
-app.get('/userSpendings', async (req, res) => {
+app.get('/api/userSpendings', async (req, res) => {
   const { user_id, trip_id } = req.query
   try {
     const result = await pool.query(

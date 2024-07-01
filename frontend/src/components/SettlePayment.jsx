@@ -20,7 +20,7 @@ function SettlePayment() {
   const fetchSettlements = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/settlements?tripOrganizer=${trip.trip_organizer}&tripId=${trip.trip_id}`
+        `/api/settlements?tripOrganizer=${trip.trip_organizer}&tripId=${trip.trip_id}`
       )
       setSettlements(response.data)
     } catch (error) {
@@ -47,7 +47,7 @@ function SettlePayment() {
     if (confirmed) {
       try {
         await axios.patch(
-          `http://localhost:5000/pay/${trip.trip_id}`,
+          `/api/pay/${trip.trip_id}`,
           {
             money: amount,
             paidTo: selectedSettlement.userId,

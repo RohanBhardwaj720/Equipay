@@ -21,7 +21,7 @@ function Pay(props) {
 
   function handle() {
     axios.post(
-      `http://localhost:5000/history`,
+      `/api/history`,
       {
         amount: inputMoney,
         paidBy: user.user_id,
@@ -35,7 +35,7 @@ function Pay(props) {
       }
     )
     axios.patch(
-      `http://localhost:5000/addpayment/${trip.trip_id}`,
+      `/api/addpayment/${trip.trip_id}`,
       {
         paidBy: user.user_id,
         money: inputMoney
