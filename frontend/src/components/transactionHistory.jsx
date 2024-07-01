@@ -13,17 +13,20 @@ function TransactionHistory(props) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('http://${process.env.HOST}:${process.env.PORT}/history', {
-          params: {
-            tripId: trip.trip_id
+        const response = await axios.get(
+          `http://localhost:5000/history`,
+          {
+            params: {
+              tripId: trip.trip_id
+            }
           }
-        })
+        )
         setHistory(response.data.reverse())
 
         // Fetch user details for each unique user ID
         const uniqueUserIds = Array.from(new Set(response.data.map((data) => data.paid_by)))
         const userDetailsPromises = uniqueUserIds.map((userId) =>
-          axios.get(`http://${process.env.HOST}:${process.env.PORT}/user`, {
+          axios.get(`http://localhost:5000/user`, {
             params: { user_id: userId }
           })
         )

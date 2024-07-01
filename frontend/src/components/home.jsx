@@ -13,9 +13,12 @@ function Home(props) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get('http://${process.env.HOST}:${process.env.PORT}/user', {
-          params: { email: user.email }
-        })
+        const response = await axios.get(
+          `http://localhost:5000/user`,
+          {
+            params: { email: user.email }
+          }
+        )
         setUser(response.data)
       } catch (error) {
         console.error('Error fetching user data:', error)

@@ -17,11 +17,14 @@ function AddTrip(props) {
 
   const fetchTrips = async () => {
     try {
-      const response = await axios.get(`http://${process.env.HOST}:${process.env.PORT}/trip/all`, {
-        params: {
-          user_id: props.user.user_id
+      const response = await axios.get(
+        `http://localhost:5000/trip/all`,
+        {
+          params: {
+            user_id: props.user.user_id
+          }
         }
-      })
+      )
       console.log(response.data)
       setTrips(response.data)
     } catch (error) {
@@ -57,11 +60,14 @@ function AddTrip(props) {
 
     for (let member of members) {
       try {
-        const response = await axios.get('http://${process.env.HOST}:${process.env.PORT}/user', {
-          params: {
-            email: member
+        const response = await axios.get(
+          `http://localhost:5000/user`,
+          {
+            params: {
+              email: member
+            }
           }
-        })
+        )
         member_ids.push(response.data.user_id)
       } catch (error) {
         console.error('Error fetching user data:', error)
@@ -69,11 +75,14 @@ function AddTrip(props) {
     }
 
     try {
-      const response2 = await axios.post('http://${process.env.HOST}:${process.env.PORT}/trip', {
-        place: place,
-        members_id: member_ids,
-        tripOrganizer: props.user.user_id
-      })
+      const response2 = await axios.post(
+        `http://localhost:5000/trip`,
+        {
+          place: place,
+          members_id: member_ids,
+          tripOrganizer: props.user.user_id
+        }
+      )
 
       await fetchTrips()
 

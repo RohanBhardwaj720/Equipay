@@ -32,11 +32,14 @@ function App() {
   const handleGoogleLogin = async (credentialResponse) => {
     const info = jwtDecode(credentialResponse.credential)
     try {
-      const response = await axios.post('http://${process.env.HOST}:${process.env.PORT}/user', {
-        email: info.email,
-        picture: info.picture,
-        name: info.name
-      })
+      const response = await axios.post(
+        `http://localhost:5000/user`,
+        {
+          email: info.email,
+          picture: info.picture,
+          name: info.name
+        }
+      )
 
       if (response.status === 201) {
         // New user
@@ -67,7 +70,7 @@ function App() {
     if (upiId) {
       try {
         const response = await axios.post(
-          'http://${process.env.HOST}:${process.env.PORT}/user/upi',
+          `http://localhost:5000/user/upi`,
           {
             user_id: userDetails.user_id,
             upiId: upiId

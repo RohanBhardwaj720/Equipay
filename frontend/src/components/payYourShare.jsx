@@ -15,9 +15,12 @@ function PayYourShare(props) {
 
   const fetchSpending = async (userId, tripId) => {
     try {
-      const response = await axios.get('http://${process.env.HOST}:${process.env.PORT}/spending', {
-        params: { userId, tripId }
-      })
+      const response = await axios.get(
+        `http://localhost:5000/spending`,
+        {
+          params: { userId, tripId }
+        }
+      )
       return response.data
     } catch (error) {
       console.error('Error fetching spending:', error.message)
@@ -27,7 +30,7 @@ function PayYourShare(props) {
   const fetchTripOrganizer = async () => {
     try {
       const response = await axios.get(
-        `http://${process.env.HOST}:${process.env.PORT}/user/${trip.trip_organizer}`
+        `http://localhost:5000/user/${trip.trip_organizer}`
       )
       setTripOrganizerDetails(response.data)
     } catch (error) {
@@ -62,11 +65,14 @@ function PayYourShare(props) {
     setShowConfirmation(false)
     if (confirmed) {
       try {
-        await axios.patch(`http://${process.env.HOST}:${process.env.PORT}/pay/${trip.trip_id}`, {
-          money: amount,
-          paidTo: trip.trip_organizer,
-          paidBy: user.user_id
-        })
+        await axios.patch(
+          `http://localhost:5000/pay/${trip.trip_id}`,
+          {
+            money: amount,
+            paidTo: trip.trip_organizer,
+            paidBy: user.user_id
+          }
+        )
         updateMoney()
         console.log('Payment successful')
         setAmount(0)

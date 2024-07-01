@@ -10,9 +10,12 @@ function DisplayTrip({ trip, user }) {
   useEffect(() => {
     const fetchTripData = async () => {
       try {
-        const response = await axios.get('http://${process.env.HOST}:${process.env.PORT}/trip', {
-          params: { trip_id: trip.trip_id }
-        })
+        const response = await axios.get(
+          `http://localhost:5000/trip`,
+          {
+            params: { trip_id: trip.trip_id }
+          }
+        )
         setTrip(response.data)
       } catch (error) {
         console.error('Error fetching trip data:', error)
@@ -26,7 +29,7 @@ function DisplayTrip({ trip, user }) {
     const fetchUserSpendings = async () => {
       try {
         const response = await axios.get(
-          'http://${process.env.HOST}:${process.env.PORT}/userSpendings',
+          `http://localhost:5000/userSpendings`,
           {
             params: { trip_id: trip.trip_id, user_id: user.user_id }
           }

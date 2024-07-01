@@ -1,0 +1,11 @@
+{
+  "name": "equipay",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "install": "cd backend && npm install && cd ../frontend && npm install",
+    "start:backend": "cd backend && node server.mjs",
+    "start:frontend": "cd frontend && npm start",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  }
+}
