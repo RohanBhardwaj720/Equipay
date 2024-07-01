@@ -11,7 +11,7 @@ function PayYourShare(props) {
   const [money, setMoney] = useState(0)
   const [showUPICard, setShowUPICard] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
-  const [tripOrganizerDetails, setTripOrganizerDetails] = useState()
+  const [tripOrganizerDetails, setTripOrganizerDetails] = useState('')
 
   const fetchSpending = async (userId, tripId) => {
     try {
@@ -29,12 +29,12 @@ function PayYourShare(props) {
   }
   const fetchTripOrganizer = async () => {
     try {
-      const response = await axios.get(
-        `/api/user/${trip.trip_organizer}`
-      )
-      setTripOrganizerDetails(response.data)
+      const response = await axios.get(`/api/user/${trip.trip_organizer}`)
+      setTripOrganizerDetails(response.data || { user_name: 'Unknown' })
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching trip organizer:', error.message)
+      setTripOrganizerDetails({ user_name: 'Unknown' })
     }
   }
   const updateMoney = async () => {
@@ -48,9 +48,14 @@ function PayYourShare(props) {
   }
 
   useEffect(() => {
-    updateMoney()
-    fetchTripOrganizer()
-  }, [])
+    if (trip && trip.trip_id && user && user.user_id) {
+      updateMoney()
+      if (trip.trip_organizer) {
+        fetchTripOrganizer()
+      }
+    }
+  }, [trip, user])
+  
 
   const handlePayClick = () => {
     setShowUPICard(true)
@@ -63,14 +68,15 @@ function PayYourShare(props) {
 
   const handleConfirmation = async (confirmed) => {
     setShowConfirmation(false)
-    if (confirmed) {
+    if (confirmed && trip && user && tripOrganizerDetails){
       try {
         await axios.patch(
           `/api/pay/${trip.trip_id}`,
           {
             money: amount,
-            paidTo: trip.trip_organizer,
-            paidBy: user.user_id
+            paidToId: trip.trip_organizer,
+            paidBy: user.user_id,
+            paidToName: tripOrganizerDetails.user_name
           }
         )
         updateMoney()
@@ -129,7 +135,7 @@ function PayYourShare(props) {
           </button>
           <input
             className={styles.paymentInput}
-            value={amount}
+            value={amount === 0 ? '' : amount}
             onChange={handleChange}
             type="number"
             min="0"

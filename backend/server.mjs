@@ -1,10 +1,10 @@
 // Path: server.mjs
-
 import express from 'express'
 import cors from 'cors'
 import { DateTime } from 'luxon'
 import fetch from 'node-fetch'
 import { pool, runMigration } from './database.mjs'
+import axios from 'axios'
 
 const app = express()
 
@@ -212,29 +212,42 @@ app.get('/api/spending', async (req, res) => {
 
 // Pay your share
 app.patch('/api/pay/:id', async (req, res) => {
-  let { money, paidBy, paidTo } = req.body
+  let { money, paidBy, paidToId, paidToName } = req.body
   const trip_id = req.params.id
+  
+  if (!money || !paidBy || !paidToId || !paidToName) {
+    return res.status(400).send('Missing required fields')
+  }
+
   money = parseFloat(money)
 
   if (isNaN(money)) {
-    console.log('Invalid amount:', money)
     return res.status(400).send('Invalid amount')
   }
 
   try {
     await pool.query('BEGIN')
 
+    const transactionDateTime = DateTime.local()
+
+    // Add transaction to history
+    await pool.query(
+      'INSERT INTO transaction_history (amount, paid_by, paid_to, transaction_datetime, trip_id) VALUES ($1::DOUBLE PRECISION, $2, $3, $4, $5)',
+      [money, paidBy, paidToName, transactionDateTime, trip_id]
+    )
+    console.log('Transaction added successfully')
+
+    // Update payer's spending
     const updatePaidBy = await pool.query(
-      'UPDATE trip_members SET user_spending = user_spending + $1 WHERE trip_id = $2 AND user_id = $3',
+      'UPDATE trip_members SET user_spending = user_spending + $1 WHERE trip_id = $2 AND user_id = $3 RETURNING *',
       [money, trip_id, paidBy]
     )
 
+    // Update payee's spending
     const updatePaidTo = await pool.query(
-      'UPDATE trip_members SET user_spending = user_spending - $1 WHERE trip_id = $2 AND user_id = $3',
-      [money, trip_id, paidTo]
+      'UPDATE trip_members SET user_spending = user_spending - $1 WHERE trip_id = $2 AND user_id = $3 RETURNING *',
+      [money, trip_id, paidToId]
     )
-
-    await pool.query('COMMIT')
 
     console.log('Update results:', {
       updatePaidBy: updatePaidBy.rowCount,
@@ -242,14 +255,16 @@ app.patch('/api/pay/:id', async (req, res) => {
     })
 
     if (updatePaidBy.rowCount === 0 || updatePaidTo.rowCount === 0) {
-      throw new Error('No rows updated')
+      throw new Error(`No rows updated. PaidBy: ${updatePaidBy.rowCount}, PaidTo: ${updatePaidTo.rowCount}`)
     }
+
+    await pool.query('COMMIT')
 
     res.status(200).send('Transaction completed successfully')
   } catch (err) {
     await pool.query('ROLLBACK')
     console.error('Error executing query', err.stack)
-    res.status(500).send('Internal Server Error')
+    res.status(500).send(`Internal Server Error: ${err.message}`)
   }
 })
 
