@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "luxon": "^3.4.4",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.12.0",
+    "prettier": "^3.3.2"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "format": "prettier --write *.mjs --print-width 100 --single-quote --no-semi --trailing-comma none"
+  }
+}

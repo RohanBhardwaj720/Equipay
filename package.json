@@ -1,51 +1,11 @@
 {
-  "name": "react",
+  "name": "equipay",
   "version": "1.0.0",
   "description": "",
-  "keywords": [],
-  "main": "src/index.tsx",
-  "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "@fortawesome/fontawesome-svg-core": "^6.5.2",
-    "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/react-fontawesome": "^0.2.2",
-    "@mui/icons-material": "^5.15.6",
-    "@react-oauth/google": "0.12.1",
-    "axios": "^1.7.2",
-    "body-parser": "^1.20.2",
-    "cors": "^2.8.5",
-    "date-fns": "^3.6.0",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "jwt-decode": "^4.0.0",
-    "luxon": "^3.4.4",
-    "node-fetch": "^3.3.2",
-    "pg": "^8.12.0",
-    "prettier": "^2.3.2",
-    "react": "18.2.0",
-    "react-confirm-alert": "^3.0.6",
-    "react-dom": "18.2.0",
-    "react-router-dom": "^5.3.4",
-    "react-scripts": "5.0.1"
-  },
-  "devDependencies": {
-    "@types/react": "18.2.38",
-    "@types/react-dom": "18.2.15",
-    "loader-utils": "3.2.1",
-    "typescript": "4.4.4"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --print-width 100 --single-quote --no-semi --trailing-comma none"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "install": "cd backend && npm install && cd ../frontend && npm install",
+    "start:backend": "cd backend && node server.mjs",
+    "start:frontend": "cd frontend && npm start",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  }
 }

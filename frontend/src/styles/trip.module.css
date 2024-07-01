@@ -1,0 +1,90 @@
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.contentWrapper {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.transactionWrapper,
+.membersWrapper {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+}
+
+.transactionWrapper {
+  align-self: center;
+  max-width: 500px;
+}
+
+.membersTitle {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 5px 0px 15px 0;
+}
+
+.membersList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.memberItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.memberItem:last-child {
+  border-bottom: none;
+}
+
+.memberSpending {
+  color: #00a4e4;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .pageContainer {
+    padding: 10px;
+  }
+
+  .transactionWrapper,
+  .membersWrapper {
+    padding: 15px;
+  }
+
+  .membersTitle {
+    font-size: 1.3rem;
+  }
+
+  .memberItem {
+    font-size: 0.9rem;
+  }
+}
