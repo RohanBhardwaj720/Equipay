@@ -138,3 +138,5 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+package-lock.json
+.DS_Store
