@@ -1,5 +1,6 @@
 .outer_container {
-  height: calc(100vh - 8.4vh);
+  min-height: calc(100vh - 8.4vh);
+  height:100%;
 }
 .container {
   font-family: 'Work Sans', sans-serif;

@@ -1,69 +1,87 @@
-# Equipay
+# Equipay 💰🧳
 
-## Introduction
+## Introduction 🌟
 
-Equipay is a financial management web application designed to simplify the process of managing and splitting expenses among participants of a trip.
+Equipay is a financial management web application designed to simplify the process of managing and splitting expenses among trip participants. It serves as a personal travel log, enabling users to track past and upcoming trips while efficiently handling shared expenses.
 
-## Key Features
+## Key Features 🔑
 
-- **Trip Creation**: Organize your travel plans and associated members.
-- **Transaction Tracking**: Log every expense incurred by trip participants.
-- **Equal Splitting**: Automatically calculate how much each member owes or is owed.
-- **Easy Settlements**: Facilitate direct payments between members to settle debts.
-- **User-Friendly Interface**: Intuitive design for seamless navigation and usage.
-- **Direct UPI Payments**: (Upcoming) Integrate a payment gateway for direct UPI transactions.
+- 🗺️ **Trip Creation**: Organize travel plans and associated members
+- 💸 **Transaction Tracking**: Log expenses incurred by trip participants
+- 🤝 **Smart Cost Splitting**: Automatically calculate owed amounts
+- 🔄 **Easy Settlements**: Facilitate direct payments between members
+- 🖥️ **User-Friendly Interface**: Intuitive design for seamless usage
+- 📱 **UPI Payments**: (Upcoming) Direct UPI transaction integration
+- 📊 **Budget Management**: Set and monitor trip budgets
+- 📅 **Travel History**: Maintain a log of past and future trips
 
-## Tech Stack
+## Tech Stack 🛠️
 
-This project is built using the following technologies:
+- 🐘 **PostgreSQL**: Database for data storage
+- 🚂 **Express.js**: Web application framework
+- ⚛️ **React**: Frontend library
+- 🟢 **Node.js**: Backend runtime
 
-- **PostgreSQL**: SQL database for structured data storage.
-- **Express.js**: Web application framework for Node.js.
-- **React**: Frontend library for building user interfaces.
-- **Node.js**: JavaScript runtime for the backend.
+## Deployment 🚀
 
-## Screenshots
+Visit Equipay at: [https://equipay-eight.vercel.app/](https://equipay-eight.vercel.app/)
 
-- Login Page
- ![Login Page](./public/login_page.png)
-- Home Page
- ![Home Page](./public/Home_page.png)
-- Trip
- ![Trip](./public/Trip.png)
-- Transaction History
- ![Transaction History](./public/transaction_history.png)
-
-## Getting Started
-
-To get a local copy up and running, follow these simple steps.
+## Getting Started 🏁
 
 ### Prerequisites
 
 - Node.js
 - npm
+- PostgreSQL database
 
 ### Installation
 
-1. Clone the repo
+1. Clone the repository
+2. Navigate to the project root directory
+3. Install dependencies:
 
-```sh
-git clone https://github.com/RohanBhardwaj720/Equipay.git
 ```
-
-2. Install NPM packages
-
-```sh
 npm install
 ```
 
-3. Start the Backend Server
+4. Set up environment variables:
+   - Copy the `.env.template` file in the `backend` directory and rename it to `.env`
+   - Fill in the following variables in the `.env` file:
+     ```
+     POSTGRES_URL=""
+     PORT=
+     HOST=
+     ```
+   Replace the empty values with your specific configuration details.
+5. Run database migrations (script in `database.mjs`)
+6. Start the application:
 
-```sh
-node server.mjs
 ```
-
-4. Start the Frontend
-
-```sh
 npm start
 ```
+## Project Structure 📁
+
+- `backend/`: Express.js server and API routes
+- `frontend/`: React application
+- `database.mjs`: Database connections and migrations
+
+## Scripts 📜
+
+-`npm run install`: Install dependencies for both backend and frontend
+-`npm run start`:backend: Start the backend server
+-`npm run start`:frontend: Start the frontend development server
+-`npm start`: Run both backend and frontend concurrently
+
+## Contributing 🤝
+
+Contributions are welcome! Feel free to submit a Pull Request.
+
+## Contact 📧
+
+For queries or suggestions, please reach out to me:
+
+Email: rohanbhardwaj720@gmail.com
+
+---
+
+Happy traveling and easy expense splitting with Equipay! 🌍✈️

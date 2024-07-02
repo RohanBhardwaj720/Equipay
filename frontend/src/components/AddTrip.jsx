@@ -133,13 +133,13 @@ function AddTrip(props) {
       </div>
 
       <div className={styles.tripsSection}>
-        <h2 className={styles.sectionTitle}>Your Trips</h2>
-        <div className={styles.trips_container}>
-          {trips.map((Trip, idx) => (
-            <DisplayTrip key={Trip.trip_id} trip={Trip} idx={idx} user={props.user} />
-          ))}
-        </div>
-      </div>
+  {trips.length !== 0 && <h2 className={styles.sectionTitle}>Your Trips</h2>}
+  <div className={styles.trips_container}>
+    {trips.map((Trip, idx) => (
+      <DisplayTrip key={Trip.trip_id} trip={Trip} idx={idx} user={props.user} />
+    ))}
+  </div>
+</div>
     </div>
   )
 }

@@ -345,7 +345,7 @@ app.get('/api/settlements', async (req, res) => {
   const { tripOrganizer, tripId } = req.query
   try {
     const result = await pool.query(
-      'SELECT users.user_name, trip_members.user_spending, users.user_upi_id FROM trip_members INNER JOIN users ON trip_members.user_id = users.user_id WHERE trip_members.user_spending > 0 AND trip_members.trip_id = $1 AND users.user_id != $2',
+      'SELECT users.user_id, users.user_name, trip_members.user_spending, users.user_upi_id FROM trip_members INNER JOIN users ON trip_members.user_id = users.user_id WHERE trip_members.user_spending > 0 AND trip_members.trip_id = $1 AND users.user_id != $2',
       [tripId, tripOrganizer]
     )
     res.status(200).json(result.rows)

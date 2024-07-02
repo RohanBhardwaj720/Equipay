@@ -112,6 +112,7 @@ function PayYourShare(props) {
   }
 
   return (
+    
     <div className={styles.paymentContainer}>
       <div className={styles.paymentCard}>
         <h2 className={styles.paymentTitle}>Payment to Trip Organizer</h2>
@@ -135,7 +136,7 @@ function PayYourShare(props) {
           </button>
           <input
             className={styles.paymentInput}
-            value={amount === 0 ? '' : amount}
+            value={amount}
             onChange={handleChange}
             type="number"
             min="0"

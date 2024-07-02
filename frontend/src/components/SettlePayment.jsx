@@ -22,7 +22,12 @@ function SettlePayment() {
       const response = await axios.get(
         `/api/settlements?tripOrganizer=${trip.trip_organizer}&tripId=${trip.trip_id}`
       )
-      setSettlements(response.data)
+      setSettlements(response.data.map(settlement => ({
+        ...settlement,
+        user_id: settlement.user_id,
+        user_name: settlement.user_name,
+        user_spending: parseFloat(settlement.user_spending)
+      })))
     } catch (error) {
       console.error('Error fetching settlements:', error)
     }
@@ -44,21 +49,25 @@ function SettlePayment() {
 
   const handleConfirmation = async (confirmed) => {
     setShowConfirmation(false)
+    
     if (confirmed) {
       try {
+        const payload = {
+          money: amount,
+          paidBy: user.user_id,
+          paidToId: selectedSettlement.user_id,
+          paidToName: selectedSettlement.user_name
+        }
+        console.log('Payload:', payload)
         await axios.patch(
           `/api/pay/${trip.trip_id}`,
-          {
-            money: amount,
-            paidTo: selectedSettlement.userId,
-            paidBy: user.user_id
-          }
+          payload
         )
         fetchSettlements()
         setSelectedSettlement(null)
         setAmount(0)
       } catch (error) {
-        console.error('Error settling payment:', error)
+        console.error('Error settling payment:', error.response ? error.response.data : error.message)
       }
     } else {
       setSelectedSettlement(null)
@@ -69,7 +78,7 @@ function SettlePayment() {
   const handleChange = (event) => {
     const value = event.target.value
     if (value === '') {
-      setAmount('')
+      setAmount(0)
     } else {
       const parsedValue = parseFloat(value)
       if (!isNaN(parsedValue)) {
@@ -79,13 +88,11 @@ function SettlePayment() {
   }
 
   const incrementAmount = () => {
-    setAmount((prev) =>
-      Math.min(typeof prev === 'number' ? prev + 100 : 100, selectedSettlement.user_spending)
-    )
+    setAmount((prev) => Math.min(prev + 100, selectedSettlement.user_spending))
   }
 
   const decrementAmount = () => {
-    setAmount((prev) => Math.max(typeof prev === 'number' ? prev - 100 : 0, 0))
+    setAmount((prev) => Math.max(prev - 100, 0))
   }
 
   return (
@@ -128,7 +135,7 @@ function SettlePayment() {
               </button>
               <input
                 className={styles.paymentInput}
-                value={amount}
+                value={amount.toString()}
                 onChange={handleChange}
                 type="number"
                 min="0"
