@@ -67,10 +67,10 @@ npm start
 
 ## Scripts 📜
 
--`npm run install`: Install dependencies for both backend and frontend
--`npm run start`:backend: Start the backend server
--`npm run start`:frontend: Start the frontend development server
--`npm start`: Run both backend and frontend concurrently
+- `npm run install`: Install dependencies for both backend and frontend
+- `npm run start`:backend: Start the backend server
+- `npm run start`:frontend: Start the frontend development server
+- `npm start`: Run both backend and frontend concurrently
 
 ## Contributing 🤝
 
