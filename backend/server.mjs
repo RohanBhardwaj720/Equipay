@@ -159,6 +159,7 @@ app.post('/api/trip', async (req, res) => {
     const newTripId = insertResult.rows[0].trip_id
 
     const promises = members_id.map((member_id) => {
+      console.log(member_id);
       return pool.query(
         'INSERT INTO trip_members (trip_id, user_id, user_spending) VALUES ($1, $2, $3)',
         [newTripId, member_id, userSpending]
