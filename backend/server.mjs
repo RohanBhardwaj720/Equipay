@@ -158,15 +158,22 @@ app.post('/api/trip', async (req, res) => {
 
     const newTripId = insertResult.rows[0].trip_id
 
-    const promises = members_id.map((member_id) => {
-      console.log(member_id);
-      return pool.query(
-        'INSERT INTO trip_members (trip_id, user_id, user_spending) VALUES ($1, $2, $3)',
-        [newTripId, member_id, userSpending]
-      )
-    })
+    // Prepare the values for bulk insert
+    const values = members_id.map((member_id) => `(${newTripId}, ${member_id}, ${userSpending})`).join(', ');
 
-    await Promise.all(promises)
+    // Construct the bulk insert query
+    const bulkInsertQuery = `
+      INSERT INTO trip_members (trip_id, user_id, user_spending) 
+      VALUES ${values};
+    `;
+
+    try {
+      // Execute the bulk insert query
+      await pool.query(bulkInsertQuery);
+      console.log('Bulk insert successful!');
+    } catch (error) {
+      console.error('Error during bulk insert:', error);
+    }
 
     console.log('Trip added successfully')
     res.status(200).send('Trip added successfully')
